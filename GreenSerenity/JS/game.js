@@ -40,20 +40,75 @@ class ConfigureScene extends Phaser.Scene {
 
     }
 }
+
 // ---------------------------------------------------------------------------
 // -----------------------------Menu Scene------------------------------------
+// ---------------------------------------------------------------------------
+
 class Menu extends ConfigureScene {
     constructor(){
         super('Menu');
     }
     create(){
+        let isGameStarted = false;
+
+
         this.add.text(20,20, "Menu Scene", {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
+
+        const startButton = this.add.text(20, 100, 'Say "start" to begin the game!', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        },);
+
+        let recognizer = new webkitSpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = "en-US";
+        recognizer.start();
+        console.log("recognizer started");
+
+        recognizer.onresult = (event) => {
+            for(let i = event.resultIndex; i < event.results.length; i++){
+                const transcript = event.results[i][0].transcript.toLowerCase();
+                console.log(transcript); 
+
+                if (transcript.includes("start") && !isGameStarted) {
+                    isGameStarted = true;
+                    recognizer.stop();
+                    console.log("recognizer stopped");
+                    this.scene.start('firstLevel');
+                }
+            }   
+        }
+        
+
+       
+
     }
 
 }
+
+// ---------------------------------------------------------------------------
+// -----------------------------Level1 Scene------------------------------------
+// ---------------------------------------------------------------------------
+
+class firstLevel extends ConfigureScene {
+    constructor(){
+        super('firstLevel');
+    }
+    create(){
+        this.add.text(20,20, "Level1 Scene", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        },);
+
+    }
+
+}
+
 
 
 
@@ -71,7 +126,7 @@ const config = {
     },
     
     
-    scene : [ConfigureScene,Menu],
+    scene : [ConfigureScene,Menu,firstLevel],
 }
 
 const game = new Phaser.Game(config);
