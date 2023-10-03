@@ -4,12 +4,15 @@ class InventoryItem {
         this.name = name;
         this.description = description;
         this.text = null;
+        this.fontproperties = {font:'Pixelify Sans'};
+
     }
 
     createItemText(scene, x, y) {
         this.text = scene.add.text(x, y, this.name, {
-            fontSize: '18px',
+            fontSize: '20px',
             fill: '#fff',
+            fontFamily: this.fontproperties.font,
         });
     }
 }

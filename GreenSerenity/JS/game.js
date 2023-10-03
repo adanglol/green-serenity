@@ -129,6 +129,14 @@ class firstLevel extends ConfigureScene {
 
         // Create some items to collect
         const keyItem = new InventoryItem('Key','A shiny key');
+        keyItem.createItemText(this, 20, 80);
+
+        keyItem.text.setInteractive();
+        keyItem.text.on('pointerdown', () => {
+            console.log('key item clicked')
+            this.inventoryUI.collectItem(keyItem);
+            keyItem.text.destroy();
+        });
         
 
     }
