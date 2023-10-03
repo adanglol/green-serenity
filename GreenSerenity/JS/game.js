@@ -2,6 +2,10 @@
 // Make sure game.js is loaded in index.html
 console.log("game.js loaded");
 
+// Import the InventoryItem class from items.js
+import { InventoryItem } from './items.js';
+import { InventoryUI } from './ui.js';
+
 // ----------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------CODE BREAKDOWN------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------------------
@@ -23,11 +27,10 @@ class ConfigureScene extends Phaser.Scene {
         super(scenekey);
         // font properties
         this.fontproperties = {font:'Pixelify Sans'};
-        // inventory array
-        this.inventory = [];
-        this.itemcount = 0;
         // flag for recognizing speech
         this.recognitionInProgress = false;
+        // inventory flag
+        // this.updateInventoryFlag = false;
     }
     preload() {
         // WHERE WE PRELOAD ALL ASSETS
@@ -46,13 +49,10 @@ class ConfigureScene extends Phaser.Scene {
             },
         });
 
-    }
 
-    collectItem(item){
-        this.inventory.push(item);
-        this.itemcount++;
     }
 }
+
 
 // ---------------------------------------------------------------------------
 // -----------------------------Menu Scene------------------------------------
@@ -66,12 +66,12 @@ class Menu extends ConfigureScene {
         let isGameStarted = false;
 
 
-        this.add.text(20,20, "Menu Scene", {
+        this.menuText = this.add.text(20,20, "Menu Scene", {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
 
-        const startButton = this.add.text(20, 100, 'Say "start" to begin the game or click here!', {
+        this.startButton = this.add.text(20, 100, 'Say "start" to begin the game or click here!', {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
@@ -101,8 +101,8 @@ class Menu extends ConfigureScene {
             }
         }
         // start the game when the start button is clicked instead of saying "start" as another option
-        startButton.setInteractive();
-        startButton.on('pointerdown', () => {
+        this.startButton.setInteractive();
+        this.startButton.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('firstLevel');
         });
@@ -119,48 +119,23 @@ class firstLevel extends ConfigureScene {
         super('firstLevel');
     }
     create(){
+        // inventory UI
+        this.inventoryUI = new InventoryUI(this);
+
         this.add.text(20,20, "Level1 Scene", {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
 
-        const item1 = this.add.text(20, 100, 'Say "item" to collect the item or click here!', {
-            fontFamily: this.fontproperties.font,
-            fontSize: 30,
-        },);
-
-        let recognizer = new webkitSpeechRecognition();
-        recognizer.continuous = true;
-        recognizer.interimResults = true;
-        recognizer.lang = "en-US";
-        recognizer.start();
-        console.log("recognizer started");
-
-        recognizer.onresult = (event) => {
-            if (!this.recognitionInProgress) {
-                for(let i = event.resultIndex; i < event.results.length; i++){
-                    const transcript = event.results[i][0].transcript.toLowerCase();
-                    console.log(transcript);
-    
-                    if (transcript.includes("item")) {
-                        // recognition is in progress stops it and collect the item and stop the recognizer
-                        this.recognitionInProgress = true;
-                        this.collectItem(item1);
-                        recognizer.stop();
-                        item1.destroy();
-                        console.log("recognizer stopped");
-                        console.log("inventory",this.inventory);
-                        console.log(this.itemcount);  
-                    }
-                }
-            }
-            
-        }
-
-
+        // Create some items to collect
+        const keyItem = new InventoryItem('Key','A shiny key');
+        
 
     }
+    collectItem(item){
 
+    }
+    
 }
 
 
