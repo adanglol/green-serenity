@@ -119,6 +119,7 @@ class firstLevel extends ConfigureScene {
         super('firstLevel');
     }
     create(){
+        console.log("firstLevel scene created and called")
         // inventory UI
         this.inventoryUI = new InventoryUI(this);
 
@@ -138,11 +139,41 @@ class firstLevel extends ConfigureScene {
             keyItem.text.destroy();
         });
         
+        const coinItem = new InventoryItem('Coin','A shiny coin');
+        coinItem.createItemText(this, 20, 120);
+
+        coinItem.text.setInteractive();
+        coinItem.text.on('pointerdown', () => {
+            console.log('coin item clicked')
+            this.inventoryUI.collectItem(coinItem);
+            coinItem.text.destroy();
+        });
+
+        const swordItem = new InventoryItem('Sword','A shiny sword');
+        swordItem.createItemText(this, 20, 160);
+
+        swordItem.text.setInteractive();
+        swordItem.text.on('pointerdown', () => {
+            console.log('sword item clicked')
+            this.inventoryUI.collectItem(swordItem);
+            swordItem.text.destroy();
+        });
+       
+        const shieldItem = new InventoryItem('Shield','A shiny shield');
+        shieldItem.createItemText(this, 20, 200);
+
+        shieldItem.text.setInteractive();
+        shieldItem.text.on('pointerdown', () => {
+            console.log('shield item clicked')
+            this.inventoryUI.collectItem(shieldItem);
+            shieldItem.text.destroy();
+        });
+
+        
+
 
     }
-    collectItem(item){
-
-    }
+    
     
 }
 
@@ -162,17 +193,18 @@ class secondLevel extends ConfigureScene {
         },);
 
     }
-
 }
 
 
+
+
 // ---------------------------------------------------------------------------
-// -----------------------------Level3 Scene------------------------------------
+// -----------------------------makeAWish Scene------------------------------------
 // ---------------------------------------------------------------------------
 
-class thirdLevel extends ConfigureScene {
+class makeAWish extends ConfigureScene {
     constructor(){
-        super('thirdLevel');
+        super('makeAWish');
     }
     create(){
         this.add.text(20,20, "Level3 Scene", {
@@ -184,8 +216,80 @@ class thirdLevel extends ConfigureScene {
 
 }
 
+// ---------------------------------------------------------------------------
+// -----------------------------Who's The Loudest Scene------------------------------------
+// ---------------------------------------------------------------------------
+
+class whosLoudest extends ConfigureScene{
+    constructor(){
+        super('whosLoudest');
+    }
+    create(){
+        this.add.text(20,20, "Level4 Scene", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        },);
+
+    }
+
+}
 
 
+// ---------------------------------------------------------------------------
+// -----------------------------Find Sound Scene------------------------------------
+// ---------------------------------------------------------------------------
+
+class findSound extends ConfigureScene{
+    constructor(){
+        super('findSound');
+    }
+    create(){
+        this.add.text(20,20, "Level5 Scene", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        },);
+
+    }
+
+}
+
+
+// ---------------------------------------------------------------------------
+// -----------------------------What Sound Scene------------------------------------
+// ---------------------------------------------------------------------------
+
+class whatSound extends ConfigureScene{
+    constructor(){
+        super('whatSound');
+    }
+    create(){
+        this.add.text(20,20, "Level6 Scene", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        },);
+
+    }
+
+}
+
+
+// ---------------------------------------------------------------------------
+// -----------------------------Remember Gong Scene------------------------------------
+// ---------------------------------------------------------------------------
+
+class rememberGong extends ConfigureScene{
+    constructor(){
+        super('rememberGong');
+    }
+    create(){
+        this.add.text(20,20, "Level7 Scene", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        },);
+
+    }
+
+}
 
 
 // ---------------------------------------------------------------------------
