@@ -37,6 +37,13 @@ class ConfigureScene extends Phaser.Scene {
         // Load the font
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
+        // Who is the Loudest Assets
+        this.load.image('whosLoudestBackground', '../ASSETS/whosLoudest.png');
+        this.load.image('fox', '../ASSETS/fox.png');
+        this.load.image('racoon', '../ASSETS/racoon.png');
+        this.load.image('butterfly', '../ASSETS/butterfly.png');
+        this.load.image('slug', '../ASSETS/slug.png');
+
     }
     create(){
         // Use WebFont Loader to load Google Fonts
@@ -95,7 +102,7 @@ class Menu extends ConfigureScene {
                         isGameStarted = true;
                         recognizer.stop();
                         console.log("recognizer stopped");
-                        this.scene.start('firstLevel');
+                        this.scene.start('whosLoudest');
                     }
                 }   
             }
@@ -104,7 +111,7 @@ class Menu extends ConfigureScene {
         this.startButton.setInteractive();
         this.startButton.on('pointerdown', () => {
             recognizer.stop();
-            this.scene.start('firstLevel');
+            this.scene.start('whosLoudest');
         });
     }
 
@@ -225,10 +232,374 @@ class whosLoudest extends ConfigureScene{
         super('whosLoudest');
     }
     create(){
-        this.add.text(20,20, "Level4 Scene", {
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+
+        // background
+        const background = this.add.sprite(0,0, 'whosLoudestBackground');
+        background.setOrigin(0,0);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight;
+
+
+        const loudestText = this.add.text(gameWidth / 2 *.5,gameHeight / 2 *.1, "Who's the Loudest?", {
             fontFamily: this.fontproperties.font,
-            fontSize: 30,
+            fontSize: 80,
         },);
+
+        const centerX = gameWidth / 2;
+        const centerY = gameHeight / 2;
+
+        const listenText = this.add.text(centerX, centerY, 'Carefully Listen...', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 80,
+        });
+        listenText.setOrigin(0.5);
+
+        this.tweens.add({
+            targets: listenText,
+            alpha: 0,
+            duration: 1000,
+            ease: 'Power2',
+            onComplete: () => {
+                console.log('tween completed');
+                const slug = this.add.sprite(gameWidth * .35, gameHeight *.8 , 'slug');
+                slug.setScale(0.8);
+
+                const butterfly = this.add.sprite(gameWidth * .375, gameHeight *.55 , 'butterfly');
+                butterfly.setScale(0.4);
+
+                const racoon = this.add.sprite(gameWidth * .6, gameHeight *.55 , 'racoon');
+                racoon.setScale(0.4);
+
+                const fox = this.add.sprite(gameWidth * .85, gameHeight *.55 , 'fox');
+                fox.setScale(0.4);
+
+                this.tweens.add({
+                    targets: slug,
+                    scaleX: 1,
+                    scaleY: 1,
+                    duration: 500,
+                    ease: 'Linear',
+                    yoyo: true,
+
+                    onStart : () => {
+                        console.log('slug tween started');
+                        // play the slug sound
+                    },
+
+                    onComplete: () => {
+                        this.tweens.add({
+                            targets: butterfly,
+                            scaleX: 1,
+                            scaleY: 1,
+                            duration: 500,
+                            ease: 'Linear',
+                            yoyo: true,
+                            
+                            onStart : () => {
+                                console.log('butterfly tween started');
+                                // play the butterfly sound
+                            },
+
+                            onComplete: () => {
+                                this.tweens.add({
+                                    targets: racoon,
+                                    scaleX: 1,
+                                    scaleY: 1,
+                                    duration: 500,
+                                    ease: 'Linear',
+                                    yoyo: true,
+                                    
+                                    onStart : () => {
+                                        console.log('racoon tween started');
+                                        // play the racoon sound
+                                    },
+
+                                    onComplete: () => {
+                                        this.tweens.add({
+                                            targets: fox,
+                                            scaleX: 1,
+                                            scaleY: 1,
+                                            duration: 500,
+                                            ease: 'Linear',
+                                            yoyo: true,
+                                            
+                                            onStart : () => {
+                                                console.log('fox tween started');
+                                                // play the fox sound
+                                            },
+
+                                            onComplete: () => {
+                                                console.log('all tweens completed');
+                                                // go to the next scene
+
+                                                this.tweens.add({
+                                                    targets: loudestText,
+                                                    alpha: 0,
+                                                    duration: 500,
+                                                    ease: 'Linear',
+
+                                                    onComplete: () => {
+                                                        const loudText = this.add.text(centerX, centerY *.4, 'Who made the loudest sound?', {
+                                                            fontFamily: this.fontproperties.font,
+                                                            fontSize: 80,
+                                                        });
+                                                        loudText.setOrigin(0.5);
+                                                        loudText.setAlpha(0);
+
+                                                        this.tweens.add({
+                                                            targets: loudText,
+                                                            alpha: 1,
+                                                            duration: 2000,
+                                                            ease: 'Linear',
+
+                                                        });
+
+
+                                                        
+                                                        slug.setInteractive();
+                                                        slug.on('pointerdown', () => {
+                                                            console.log('slug clicked');
+                                                            this.tweens.add({
+                                                                targets: loudText,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+
+                                                            });
+                                                            butterfly.destroy();
+                                                            racoon.destroy();
+                                                            fox.destroy();
+                                                            
+                                                            slug.setPosition(gameWidth *.7, gameHeight *.8);
+                                                            slug.setOrigin(0.5);
+
+                                                            this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
+                                                                fontFamily: this.fontproperties.font,
+                                                                fontSize: 80,
+                                                            });
+
+                                                            this.time.addEvent({
+                                                                delay :2000,
+                                                                callback : () => {
+                                                                    console.log('delay completed level transition');
+                                                                    this.scene.start('findSound');
+
+                                                                },
+                                                            });
+
+
+                                                            
+                                                        
+                                                        
+                                                        });
+
+                                                        butterfly.setInteractive();
+                                                        butterfly.on('pointerdown', () => {
+                                                            console.log('butterfly clicked');
+                                                            this.tweens.add({
+                                                                targets: loudText,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+
+                                                            });
+                                                            slug.destroy();
+                                                            racoon.destroy();
+                                                            fox.destroy();
+
+                                                            butterfly.setPosition(gameWidth *.5, gameHeight *.5);
+
+                                                            this.add.text(centerX * .1, centerY * .1, 'Congrats you found the loudest one!\nMoving onwards!', {
+                                                                fontFamily: this.fontproperties.font,
+                                                                fontSize: 80,
+                                                            });
+
+                                                            this.time.addEvent({
+                                                                delay :2000,
+                                                                callback : () => {
+                                                                    console.log('delay completed level transition');
+                                                                    this.scene.start('findSound');
+
+                                                                },
+                                                            });
+                                                        });
+
+                                                        racoon.setInteractive();
+                                                        racoon.on('pointerdown', () => {
+                                                            console.log('racoon clicked');
+                                                            this.tweens.add({
+                                                                targets: loudText,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+
+                                                            });
+                                                            slug.destroy();
+                                                            butterfly.destroy();
+                                                            fox.destroy();
+
+                                                            racoon.setPosition(gameWidth *.5, gameHeight *.5);
+
+                                                            this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
+                                                                fontFamily: this.fontproperties.font,
+                                                                fontSize: 80,
+                                                            });
+
+                                                            this.time.addEvent({
+                                                                delay :2000,
+                                                                callback : () => {
+                                                                    console.log('delay completed level transition');
+                                                                    this.scene.start('findSound');
+
+                                                                },
+                                                            });
+                                                        });
+
+                                                        fox.setInteractive();
+                                                        fox.on('pointerdown', () => {
+                                                            console.log('fox clicked');
+                                                            this.tweens.add({
+                                                                targets: loudText,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+
+                                                            });
+                                                            slug.destroy();
+                                                            butterfly.destroy();
+                                                            racoon.destroy();
+
+                                                            fox.setPosition(gameWidth *.5, gameHeight *.5);
+
+                                                            this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
+                                                                fontFamily: this.fontproperties.font,
+                                                                fontSize: 80,
+                                                            });
+
+                                                            this.time.addEvent({
+                                                                delay :2000,
+                                                                callback : () => {
+                                                                    console.log('delay completed level transition');
+                                                                    this.scene.start('findSound');
+                                                                },
+                                                            });
+                                                        });
+
+
+                                                        slug.on('pointerover', () => {
+                                                            console.log('slug pointerover');
+                                                            const slugTween = this.tweens.add({
+                                                                targets: slug,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+                                                                yoyo: true,
+                                                                repeat: -1,
+                                                            });
+                                                            slug.on('pointerout', () => {
+                                                                console.log('slug pointerout');
+                                                                slugTween.stop();
+                                                                slug.alpha = 1;
+                                                            });
+                                                        });
+
+                                                       
+
+                                                        butterfly.on('pointerover', () => {
+                                                            console.log('butterfly pointerover');
+                                                            const butterflyTween = this.tweens.add({
+                                                                targets: butterfly,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+                                                                yoyo: true,
+                                                                repeat : -1,
+                                                            });
+                                                            butterfly.on('pointerout', () => {
+                                                                console.log('butterfly pointerout');
+                                                                butterflyTween.stop();
+                                                                butterfly.alpha = 1;
+                                                            });
+
+                                                        });
+
+                                                      
+
+                                                        racoon.on('pointerover', () => {
+                                                            console.log('racoon pointerover');
+                                                            const racoonTween = this.tweens.add({
+                                                                targets: racoon,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+                                                                yoyo: true,
+                                                                repeat : -1,
+                                                            });
+                                                            racoon.on('pointerout', () => {
+                                                                racoonTween.stop();
+                                                                console.log('racoon pointerout');
+                                                                racoon.alpha = 1;
+                                                            });
+                                                        });
+
+                                                       
+
+                                                        fox.on('pointerover', () => {
+                                                            console.log('fox pointerover');
+                                                            const foxTween = this.tweens.add({
+                                                                targets: fox,
+                                                                alpha: 0,
+                                                                duration: 500,
+                                                                ease: 'Linear',
+                                                                yoyo: true,
+                                                                repeat : -1,
+                                                            });
+                                                            fox.on('pointerout', () => {
+                                                                console.log('fox pointerout');
+                                                                foxTween.stop();
+                                                                fox.alpha = 1;
+                                                            });
+                                                        });
+
+                                                       
+
+
+
+
+
+                                                               
+                                                    },
+                                                });
+
+
+                                        
+                                            },
+
+                                        });
+                                    },
+
+                                });
+
+                            },
+
+                        });
+                    },
+
+
+
+
+                });
+
+
+
+
+            }
+        });
+        
+        
 
     }
 
@@ -305,8 +676,8 @@ const config = {
         parent: 'game-container',
     },
     
-    
-    scene : [ConfigureScene,Menu,firstLevel],
+    //ConfigureScene,Menu,firstLevel
+    scene : [ConfigureScene,Menu,whosLoudest,findSound],
 }
 
 const game = new Phaser.Game(config);
