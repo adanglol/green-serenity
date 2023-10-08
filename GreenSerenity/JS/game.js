@@ -44,10 +44,11 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('butterfly', '../ASSETS/butterfly.png');
         this.load.image('slug', '../ASSETS/slug.png');
         // audio assets who is the loudest
-        this.load.audio('slugSound', '../ASSETS/slugSound.mp3');
-        this.load.audio('butterflySound', '../ASSETS/FireflySound.wav');
-        this.load.audio('racoonSound', '../ASSETS/RacoonSounds.wav');
-        this.load.audio('foxSound', '../ASSETS/CoyoteSound.wav');
+        
+        this.load.audio('slugSounds', '../ASSETS/slugSound.mp3');
+        this.load.audio('butterflySounds', '../ASSETS/FireflySound.wav');
+        this.load.audio('racoonSounds', '../ASSETS/RacoonSounds.wav');
+        this.load.audio('foxSounds', '../ASSETS/CoyoteSound.wav');
 
 
     }
@@ -264,10 +265,10 @@ class whosLoudest extends ConfigureScene{
         listenText.setOrigin(0.5);
 
 
-        const slugSound = this.sound.add('slugSound');
-        const butterflySound = this.sound.add('butterflySound');
-        const racoonSound = this.sound.add('racoonSound');
-        const foxSound = this.sound.add('foxSound');
+        const slugSound = this.sound.add('slugSounds');
+        const butterflySound = this.sound.add('butterflySounds');
+        const racoonSound = this.sound.add('racoonSounds');
+        const foxSound = this.sound.add('foxSounds');
 
         this.tweens.add({
             targets: listenText,
