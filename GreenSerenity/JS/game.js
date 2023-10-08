@@ -232,13 +232,7 @@ class firstLevel extends ConfigureScene {
                         isInventoryOpen = false;
                     }
 
-                    if (transcript.includes("loudest") && !isGameStarted) {
-                        this.recognitionInProgress = true;
-                        isGameStarted = true;
-                        recognizer.stop();
-                        console.log("recognizer stopped");
-                        this.scene.start('whosLoudest');
-                    }
+                   
                 }   
             }
         }
