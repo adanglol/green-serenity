@@ -46,7 +46,7 @@ class ConfigureScene extends Phaser.Scene {
         // audio assets who is the loudest
         
         this.load.audio('slugSounds', '../ASSETS/slugSound.mp3');
-        this.load.audio('butterflySounds', '../ASSETS/FireflySound.wav');
+        this.load.audio('butterflySounds', '../ASSETS/FireFlySound.wav');
         this.load.audio('racoonSounds', '../ASSETS/RacoonSounds.wav');
         this.load.audio('foxSounds', '../ASSETS/CoyoteSound.wav');
 
