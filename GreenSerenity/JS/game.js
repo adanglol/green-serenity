@@ -249,7 +249,7 @@ class whosLoudest extends ConfigureScene{
         background.displayHeight = gameHeight;
 
 
-        const loudestText = this.add.text(gameWidth / 2 *.5,gameHeight / 2 *.1, "Who's the Loudest?", {
+        const loudestText = this.add.text(gameWidth / 2 *.3,gameHeight / 2 *.1, "Who's the Loudest?", {
             fontFamily: this.fontproperties.font,
             fontSize: 80,
         },);
@@ -276,16 +276,16 @@ class whosLoudest extends ConfigureScene{
             ease: 'Power2',
             onComplete: () => {
                 console.log('tween completed');
-                const slug = this.add.sprite(gameWidth * .35, gameHeight *.8 , 'slug');
-                slug.setScale(0.8);
+                const slug = this.add.sprite(gameWidth * .45, gameHeight *.9 , 'slug');
+                slug.setScale(0.7);
 
                 const butterfly = this.add.sprite(gameWidth * .375, gameHeight *.55 , 'butterfly');
                 butterfly.setScale(0.4);
 
-                const racoon = this.add.sprite(gameWidth * .6, gameHeight *.55 , 'racoon');
+                const racoon = this.add.sprite(gameWidth * .65, gameHeight *.55 , 'racoon');
                 racoon.setScale(0.4);
 
-                const fox = this.add.sprite(gameWidth * .85, gameHeight *.55 , 'fox');
+                const fox = this.add.sprite(gameWidth * .9, gameHeight *.55 , 'fox');
                 fox.setScale(0.4);
 
                 this.tweens.add({
@@ -366,7 +366,7 @@ class whosLoudest extends ConfigureScene{
                                                     onComplete: () => {
                                                         const loudText = this.add.text(centerX, centerY *.4, 'Who made the loudest sound?', {
                                                             fontFamily: this.fontproperties.font,
-                                                            fontSize: 80,
+                                                            fontSize: 60,
                                                         });
                                                         loudText.setOrigin(0.5);
                                                         loudText.setAlpha(0);
@@ -400,11 +400,11 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 80,
+                                                                fontSize: 50,
                                                             });
 
                                                             this.time.addEvent({
-                                                                delay :2000,
+                                                                delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
                                                                     this.scene.start('findSound');
@@ -436,11 +436,11 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Congrats you found the loudest one!\nMoving onwards!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 80,
+                                                                fontSize: 50,
                                                             });
 
                                                             this.time.addEvent({
-                                                                delay :2000,
+                                                                delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
                                                                     this.scene.start('findSound');
@@ -467,11 +467,11 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 80,
+                                                                fontSize: 50,
                                                             });
 
                                                             this.time.addEvent({
-                                                                delay :2000,
+                                                                delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
                                                                     this.scene.start('findSound');
@@ -498,11 +498,11 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 80,
+                                                                fontSize: 50,
                                                             });
 
                                                             this.time.addEvent({
-                                                                delay :2000,
+                                                                delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
                                                                     this.scene.start('findSound');
