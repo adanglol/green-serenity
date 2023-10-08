@@ -43,6 +43,12 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('racoon', '../ASSETS/racoon.png');
         this.load.image('butterfly', '../ASSETS/butterfly.png');
         this.load.image('slug', '../ASSETS/slug.png');
+        // audio assets who is the loudest
+        this.load.audio('slugSound', '../ASSETS/slugSound.mp3');
+        this.load.audio('butterflySound', '../ASSETS/FireflySound.wav');
+        this.load.audio('racoonSound', '../ASSETS/RacoonSounds.wav');
+        this.load.audio('foxSound', '../ASSETS/CoyoteSound.wav');
+
 
     }
     create(){
@@ -257,6 +263,12 @@ class whosLoudest extends ConfigureScene{
         });
         listenText.setOrigin(0.5);
 
+
+        const slugSound = this.sound.add('slugSound');
+        const butterflySound = this.sound.add('butterflySound');
+        const racoonSound = this.sound.add('racoonSound');
+        const foxSound = this.sound.add('foxSound');
+
         this.tweens.add({
             targets: listenText,
             alpha: 0,
@@ -280,65 +292,75 @@ class whosLoudest extends ConfigureScene{
                     targets: slug,
                     scaleX: 1,
                     scaleY: 1,
-                    duration: 500,
+                    duration: 2000,
                     ease: 'Linear',
                     yoyo: true,
 
                     onStart : () => {
                         console.log('slug tween started');
                         // play the slug sound
+                        slugSound.play();
                     },
 
                     onComplete: () => {
+                        slugSound.stop();
                         this.tweens.add({
                             targets: butterfly,
                             scaleX: 1,
                             scaleY: 1,
-                            duration: 500,
+                            duration: 2000,
                             ease: 'Linear',
                             yoyo: true,
                             
                             onStart : () => {
                                 console.log('butterfly tween started');
                                 // play the butterfly sound
+                                butterflySound.volume = 5;
+                                butterflySound.play();
                             },
 
                             onComplete: () => {
+                                butterflySound.stop();
                                 this.tweens.add({
                                     targets: racoon,
                                     scaleX: 1,
                                     scaleY: 1,
-                                    duration: 500,
+                                    duration: 2000,
                                     ease: 'Linear',
                                     yoyo: true,
                                     
                                     onStart : () => {
                                         console.log('racoon tween started');
                                         // play the racoon sound
+                                        racoonSound.play();
                                     },
 
                                     onComplete: () => {
+                                        racoonSound.stop();
                                         this.tweens.add({
                                             targets: fox,
                                             scaleX: 1,
                                             scaleY: 1,
-                                            duration: 500,
+                                            duration: 2000,
                                             ease: 'Linear',
                                             yoyo: true,
                                             
                                             onStart : () => {
                                                 console.log('fox tween started');
                                                 // play the fox sound
+                                                foxSound.play();
                                             },
 
                                             onComplete: () => {
                                                 console.log('all tweens completed');
                                                 // go to the next scene
 
+                                                foxSound.stop();
+
                                                 this.tweens.add({
                                                     targets: loudestText,
                                                     alpha: 0,
-                                                    duration: 500,
+                                                    duration: 2000,
                                                     ease: 'Linear',
 
                                                     onComplete: () => {
