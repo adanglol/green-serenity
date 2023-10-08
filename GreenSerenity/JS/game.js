@@ -80,14 +80,14 @@ class Menu extends ConfigureScene {
         let isGameStarted = false;
 
 
-        this.menuText = this.add.text(20,20, "Menu Scene", {
+        this.menuText = this.add.text(this.scale.width *.35,this.scale.height * .1, "Menu Scene", {
             fontFamily: this.fontproperties.font,
-            fontSize: 30,
+            fontSize: 80,
         },);
 
-        this.startButton = this.add.text(20, 100, 'Say "start" to begin the game or click here!', {
+        this.startButton = this.add.text(this.scale.width *.1,this.scale.height * .3, 'Say "start" to begin the first game or click me!', {
             fontFamily: this.fontproperties.font,
-            fontSize: 30,
+            fontSize: 50,
         },);
 
         let recognizer = new webkitSpeechRecognition();
@@ -109,6 +109,14 @@ class Menu extends ConfigureScene {
                         isGameStarted = true;
                         recognizer.stop();
                         console.log("recognizer stopped");
+                        this.scene.start('firstLevel');
+                    }
+
+                    if (transcript.includes("loudest") && !isGameStarted) {
+                        this.recognitionInProgress = true;
+                        isGameStarted = true;
+                        recognizer.stop();
+                        console.log("recognizer stopped");
                         this.scene.start('whosLoudest');
                     }
                 }   
@@ -118,8 +126,20 @@ class Menu extends ConfigureScene {
         this.startButton.setInteractive();
         this.startButton.on('pointerdown', () => {
             recognizer.stop();
+            this.scene.start('firstLevel');
+        });
+
+        this.theLoudestButton = this.add.text(this.scale.width *.1,this.scale.height * .5, 'Say "Loudest" to play whos Loudest Mini Game or click me!', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 50,
+        },);
+
+        this.theLoudestButton.setInteractive();
+        this.theLoudestButton.on('pointerdown', () => {
+            recognizer.stop();
             this.scene.start('whosLoudest');
         });
+
     }
 
 }
@@ -182,6 +202,46 @@ class firstLevel extends ConfigureScene {
             this.inventoryUI.collectItem(shieldItem);
             shieldItem.text.destroy();
         });
+        
+        let isInventoryOpen = false;
+        
+        let recognizer = new webkitSpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = "en-US";
+        recognizer.start();
+        console.log("recognizer started");
+
+
+
+        recognizer.onresult = (event) => {
+            if (!this.recognitionInProgress) {
+                for(let i = event.resultIndex; i < event.results.length; i++){
+                    const transcript = event.results[i][0].transcript.toLowerCase();
+                    console.log(transcript); 
+                    if (transcript.includes("open") && !isInventoryOpen) {  
+                        // recognition is in progress
+                        // this.recognitionInProgress = false;
+                        // toggle inventory
+                        this.inventoryUI.toggleInventory();
+                        isInventoryOpen = true;
+                    }
+                    if(transcript.includes("close") && isInventoryOpen){
+                        // this.recognitionInProgress = false;
+                        this.inventoryUI.toggleInventory();
+                        isInventoryOpen = false;
+                    }
+
+                    if (transcript.includes("loudest") && !isGameStarted) {
+                        this.recognitionInProgress = true;
+                        isGameStarted = true;
+                        recognizer.stop();
+                        console.log("recognizer stopped");
+                        this.scene.start('whosLoudest');
+                    }
+                }   
+            }
+        }
 
         
 
@@ -250,7 +310,7 @@ class whosLoudest extends ConfigureScene{
         background.displayHeight = gameHeight;
 
 
-        const loudestText = this.add.text(gameWidth / 2 *.3,gameHeight / 2 *.1, "Who's the Loudest?", {
+        const loudestText = this.add.text(gameWidth / 2 *.5,gameHeight / 2 *.1, "Who's the Loudest?", {
             fontFamily: this.fontproperties.font,
             fontSize: 80,
         },);
@@ -700,7 +760,7 @@ const config = {
     },
     
     //ConfigureScene,Menu,firstLevel
-    scene : [ConfigureScene,Menu,whosLoudest,findSound],
+    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,findSound],
 }
 
 const game = new Phaser.Game(config);
