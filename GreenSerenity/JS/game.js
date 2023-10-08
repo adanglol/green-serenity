@@ -277,7 +277,7 @@ class whosLoudest extends ConfigureScene{
             ease: 'Power2',
             onComplete: () => {
                 console.log('tween completed');
-                const slug = this.add.sprite(gameWidth * .45, gameHeight *.9 , 'slug');
+                const slug = this.add.sprite(gameWidth * .35, gameHeight *.7 , 'slug');
                 slug.setScale(0.7);
 
                 const butterfly = this.add.sprite(gameWidth * .375, gameHeight *.55 , 'butterfly');
