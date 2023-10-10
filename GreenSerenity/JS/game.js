@@ -729,6 +729,27 @@ class whatSound extends ConfigureScene{
         background.displayWidth = gameWidth;
         background.displayHeight = gameHeight; 
 
+        // background ambiance?
+        // put first audio here along
+
+
+        let recognizer = new webkitSpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = "en-US";
+        recognizer.start();
+        console.log("recognizer started");
+
+        recognizer.onresult = (event) => {
+            if (!this,recognizerInprogress) {
+                for (let i = event.resultIndex; i < event.results.length; i++){
+                    const transcript = event.results[i][0].transcript.toLowerCase();
+                    console.log(transcript); 
+                 //   if (transcript.includes ("bird") && !)
+                }
+            }
+        }
+
     }
 
 }
