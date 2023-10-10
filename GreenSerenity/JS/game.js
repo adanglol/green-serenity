@@ -44,7 +44,6 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('butterfly', '../ASSETS/butterfly.png');
         this.load.image('slug', '../ASSETS/slug.png');
         // audio assets who is the loudest
-        
         this.load.audio('slugSounds', '../ASSETS/slugSound.mp3');
         this.load.audio('butterflySounds', '../ASSETS/FireFlySound.wav');
         this.load.audio('racoonSounds', '../ASSETS/RacoonSounds.wav');
@@ -55,6 +54,16 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('bug', '../ASSETS/whats_sound/minigame cricket bug.png');
         this.load.image('rain', '../ASSETS/whats_sound/minigame raincloud.png');
         this.load.image('WhatSoundBackground', '../ASSETS/whats_sound/minigame mine background.png');
+        // Recordance Assets
+        this.load.image('recordanceBackground', '../ASSETS/RecordanceBg.png');
+        this.load.image('recordanceTitle', '../ASSETS/Recordance.png');
+        this.load.image('recordancePrompt','../ASSETS/RecordancePrompt.png');
+        this.load.image('recordanceNotes', '../ASSETS/RecordanceNotes.png');
+        this.load.image('channelOne', '../ASSETS/RadioChannel1.png');
+        this.load.image('channelTwo', '../ASSETS/RadioChannel2.png');
+        this.load.image('channelThree', '../ASSETS/RadioChannel3.png');
+        this.load.image('channelFour', '../ASSETS/RadioChannel4.png');
+
 
     }
     create(){
@@ -92,7 +101,7 @@ class Menu extends ConfigureScene {
 
         this.startButton = this.add.text(this.scale.width *.1,this.scale.height * .3, 'Say "start" to begin the first game or click me!', {
             fontFamily: this.fontproperties.font,
-            fontSize: 50,
+            fontSize: 30,
         },);
 
         let recognizer = new webkitSpeechRecognition();
@@ -124,6 +133,14 @@ class Menu extends ConfigureScene {
                         console.log("recognizer stopped");
                         this.scene.start('whosLoudest');
                     }
+
+                    if (transcript.includes("record") && !isGameStarted) {
+                        this.recognitionInProgress = true;
+                        isGameStarted = true;
+                        recognizer.stop();
+                        console.log("recognizer stopped");
+                        this.scene.start('Recordance');
+                    }
                 }   
             }
         }
@@ -136,13 +153,24 @@ class Menu extends ConfigureScene {
 
         this.theLoudestButton = this.add.text(this.scale.width *.1,this.scale.height * .5, 'Say "Loudest" to play whos Loudest Mini Game or click me!', {
             fontFamily: this.fontproperties.font,
-            fontSize: 50,
+            fontSize: 30,
         },);
 
         this.theLoudestButton.setInteractive();
         this.theLoudestButton.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('whosLoudest');
+        });
+
+        this.recordanceButton = this.add.text(this.scale.width *.1,this.scale.height * .7, 'Say "Record" to play Recordance Mini Game or click me!', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        });
+
+        this.recordanceButton.setInteractive();
+        this.recordanceButton.on('pointerdown', () => {
+            recognizer.stop();
+            this.scene.start('Recordance');
         });
 
     }
@@ -168,7 +196,7 @@ class firstLevel extends ConfigureScene {
         },);
 
         // Create some items to collect
-        const keyItem = new InventoryItem('Key','A shiny key');
+        const keyItem = new InventoryItem('Sun','A shiny sun');
         keyItem.createItemText(this, 20, 80);
 
         keyItem.text.setInteractive();
@@ -467,7 +495,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
 
                                                                 },
                                                             });
@@ -503,7 +531,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
 
                                                                 },
                                                             });
@@ -534,7 +562,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
 
                                                                 },
                                                             });
@@ -565,7 +593,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
                                                                 },
                                                             });
                                                         });
@@ -692,17 +720,117 @@ class whosLoudest extends ConfigureScene{
 // -----------------------------Find Sound Scene------------------------------------
 // ---------------------------------------------------------------------------
 
-class findSound extends ConfigureScene{
+class Recordance extends ConfigureScene{
     constructor(){
-        super('findSound');
+        super('Recordance');
     }
     create(){
-        this.add.text(20,20, "Level5 Scene", {
+        this.add.text(20,20, "Recordance Scene", {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
 
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+
+        // background
+        const background = this.add.sprite(0,0, 'recordanceBackground');
+        background.setOrigin(0,0);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight;
+
+        const title = this.add.sprite(gameWidth / 2, gameHeight * .5, 'recordanceTitle');
+        title.setScale(0.7);
+        const startText = this.add.text(gameWidth *.65, gameHeight * .85, 'Say "Start" to begin the game!', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 25,
+        });
+
+        
+        const channelButton = this.add.sprite(gameWidth * 0.51, gameHeight * 0.55, 'channelOne');
+        channelButton.setScale(0.7);
+
+       
+        let recognizer = new webkitSpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = "en-US";
+        recognizer.start();
+        console.log("recognizer started");
+
+        recognizer.onresult = (event) => {
+            if (!this.recognitionInProgress) {
+                for(let i = event.resultIndex; i < event.results.length; i++){
+                    const transcript = event.results[i][0].transcript.toLowerCase();
+                    console.log(transcript); 
+                    if(transcript.includes('start')){
+                        title.destroy();
+                        startText.destroy();
+                        channelButton.destroy();
+                        recognizer.stop();
+
+                        const prompt = this.add.sprite(gameWidth /2 , gameHeight * .4, 'recordancePrompt');
+                        prompt.setScale(0.6);
+
+                        const Wheel = this.anims.create({
+                            key: 'scrollWheel',
+                            frames: [
+                                { key: 'channelOne' },
+                                { key: 'channelTwo' },
+                                { key: 'channelThree' },
+                                { key: 'channelFour' },
+                            ],
+                            frameRate: 10,
+                        });
+
+                       
+
+                        
+                        
+                        const channelOne = this.add.sprite(gameWidth * 0.51, gameHeight * 0.55, 'channelOne');
+                        channelOne.setScale(0.7);
+
+                      
+                      
+                        // Define an array of frame names in the desired order
+                        const frameNames = ['channelOne', 'channelTwo', 'channelThree', 'channelFour'];
+
+                        // Initialize the current frame index
+                        let currentFrameIndex = 0;
+
+                        // Set the initial frame
+                        channelOne.setTexture(frameNames[currentFrameIndex]);
+
+                        this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+                            console.log('wheel');
+
+                            if (deltaY > 0) {
+                                console.log('down');
+                                // Decrement the frame index (scrolling down)
+                                currentFrameIndex = (currentFrameIndex - 1 + frameNames.length) % frameNames.length;
+                            } else if (deltaY < 25) {
+                                console.log('up');
+                                // Increment the frame index (scrolling up)
+                                currentFrameIndex = (currentFrameIndex + 1) % frameNames.length;
+                            }
+
+                            // Set the sprite to the new frame
+                            channelOne.setTexture(frameNames[currentFrameIndex]);
+                        });
+
+                       
+                     
+
+
+
+                    
+                    } 
+                }   
+            }
+        }
     }
+    
 
 }
 
@@ -788,7 +916,7 @@ const config = {
     },
     
     //ConfigureScene,Menu,firstLevel
-    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,findSound],
+    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,Recordance],
 }
 
 const game = new Phaser.Game(config);
