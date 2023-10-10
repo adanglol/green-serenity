@@ -749,7 +749,7 @@ class Recordance extends ConfigureScene{
 
         
         const channelButton = this.add.sprite(gameWidth * 0.51, gameHeight * 0.55, 'channelOne');
-        channelButton.setScale(0.5);
+        channelButton.setScale(0.7);
 
        
         let recognizer = new webkitSpeechRecognition();
@@ -789,7 +789,7 @@ class Recordance extends ConfigureScene{
                         
                         
                         const channelOne = this.add.sprite(gameWidth * 0.51, gameHeight * 0.55, 'channelOne');
-                        channelOne.setScale(0.5);
+                        channelOne.setScale(0.7);
 
                       
                       
