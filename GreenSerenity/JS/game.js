@@ -49,6 +49,11 @@ class ConfigureScene extends Phaser.Scene {
         this.load.audio('racoonSounds', '../ASSETS/RacoonSounds.wav');
         this.load.audio('foxSounds', '../ASSETS/CoyoteSound.wav');
 
+        //what's that sound
+        this.load.image('bird', '../ASSETS/whats_sound/mini game bird.png');
+        this.load.image('bug', '../ASSETS/whats_sound/minigame cricket bug.png');
+        this.load.image('rain', '../ASSETS/whats_sound/minigame raincloud.png');
+        this.load.image('WhatSoundBackground', '../ASSETS/whats_sound/minigame mine background.png');
         // Recordance Assets
         this.load.image('recordanceBackground', '../ASSETS/RecordanceBg.png');
         this.load.image('recordanceTitle', '../ASSETS/Recordance.png');
@@ -843,6 +848,14 @@ class whatSound extends ConfigureScene{
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
+
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+        const background = this.add.sprite(0,0, 'whatSoundBackground');
+        background.setOrigin(0,0);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight; 
 
     }
 
