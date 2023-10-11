@@ -28,7 +28,7 @@ class InventoryUI {
             sceneHeight - inventoryHeight, // align to bottom of the screen
             inventoryWidth,
             inventoryHeight,
-            0x333333
+            0xD2B48C
         );
         
         // modifying properties of the background
@@ -41,13 +41,15 @@ class InventoryUI {
         //  Create inventory button to toggle inventory UI
         this.inventoryButton = this.scene.add.text(0,0, '👜', {
             fontFamily: this.fontproperties.font,
-            fontSize: 30,
+            fontSize: 50,
         }).setInteractive();
 
           // Calculate the X position to center the button horizontally
-          const buttonX = (inventoryWidth - this.inventoryButton.width) / 2;
+        //   (inventoryWidth - this.inventoryButton.width) / 2;
+          const buttonX = sceneWidth * .9;
           // Set the Y position to place the button at the top of the container
-          const buttonY = sceneHeight *.75;
+        //   sceneHeight *.75
+          const buttonY = sceneHeight * .05;
   
           // Set the position of the button
           this.inventoryButton.setPosition(buttonX, buttonY);
@@ -136,6 +138,15 @@ class InventoryUI {
              );
              this.inventoryUIContainer.add(itemText);
             }
+    }
+    getInventory(){
+        return this.inventory;
+    }
+    deleteInventory(){
+        this.inventory = [];
+        this.itemcount = 0;
+        // this.inventoryUIContainer.removeAll(true);
+        this.toggleInventory();
     }
  
 

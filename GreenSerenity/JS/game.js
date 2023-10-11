@@ -64,6 +64,26 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('channelThree', '../ASSETS/RadioChannel3.png');
         this.load.image('channelFour', '../ASSETS/RadioChannel4.png');
 
+        // Make a Wish Assets
+        this.load.image('makeAWishBackground', '../ASSETS/makeWish/Lvl 3 BG.png');
+        this.load.image('cliff', '../ASSETS/makeWish/Lvl 3 Cliff.png');
+        this.load.image('cloud','../ASSETS/makeWish/Lvl 3 clouds.png');
+        // paper and folding it 
+        this.load.image('paper1', '../ASSETS/makeWish/Lvl 3 paper 1.png');
+        this.load.image('paper2', '../ASSETS/makeWish/Lvl 3 paper 2.png');
+        this.load.image('paper3', '../ASSETS/makeWish/Lvl 3 paper 3.png');
+        this.load.image('paper4', '../ASSETS/makeWish/Lvl 3 paper 4.png');
+        this.load.image('paper5', '../ASSETS/makeWish/Lvl 3 paper 5.png');
+        // airplane flying
+        this.load.image('airplane1', '../ASSETS/makeWish/Lvl 3 paper f1.png');
+        this.load.image('airplane2', '../ASSETS/makeWish/Lvl 3 paper f2.png');
+        this.load.image('airplane3', '../ASSETS/makeWish/Lvl 3 paper f3.png');
+        this.load.image('airplane4', '../ASSETS/makeWish/Lvl 3 paper f4.png');
+        // sun
+        this.load.image('sunShade', '../ASSETS/makeWish/Lvl 3 Sun Shade.png');
+        this.load.image('sun', '../ASSETS/makeWish/Lvl 3 Sun.png');
+        this.load.image('waterShade', '../ASSETS/makeWish/Lvl 3 Water shade.png');
+
 
     }
     create(){
@@ -141,6 +161,16 @@ class Menu extends ConfigureScene {
                         console.log("recognizer stopped");
                         this.scene.start('Recordance');
                     }
+
+                    if(transcript.includes('wish' && !isGameStarted)){
+                        this.recognitionInProgress = true;
+                        isGameStarted = true;
+                        recognizer.stop();
+                        console.log('recongnizer stopped')
+                        this.scene.start('makeAWish')
+                    }
+
+
                 }   
             }
         }
@@ -173,6 +203,18 @@ class Menu extends ConfigureScene {
             this.scene.start('Recordance');
         });
 
+
+        this.wishButton = this.add.text(this.scale.width *.1, this.scale.height *.9, 'Say "Wish" to play Make A Wish Minigame or click me!'
+        ,{
+            fontFamily : this.fontproperties.font,
+            fontSize: 30,
+        })
+        this.wishButton.setInteractive();
+
+        this.wishButton.on('pointerdown', () => {
+            recognizer.stop();
+            this.scene.start('makeAWish');
+        })
     }
 
 }
@@ -308,12 +350,184 @@ class makeAWish extends ConfigureScene {
         super('makeAWish');
     }
     create(){
-        this.add.text(20,20, "Level3 Scene", {
+      
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+
+    
+        // background
+        const background = this.add.sprite(0,0, 'makeAWishBackground');
+        background.setOrigin(0,0);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight;
+
+         const makeWishText = this.add.text(gameWidth * .35,gameHeight * .2, "Make A Wish!", {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
+        makeWishText.alpha = 0;
+        makeWishText.setDepth(1);
+
+
+
+
+        // sun
+        const sun = this.add.sprite(gameWidth * .5, gameHeight * .5, 'sun');
+        // sun.setOrigin(0.5);
+        sun.setScale(0.5);
+
+        // sun shade
+        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .52, 'sunShade');
+        sunShade.setScale(0.5);
+
+        // water shade
+        const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .5, 'waterShade');
+        waterShade.setScale(0.6);
+
+        // cliff
+        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cliff');
+        cliff.setScale(0.7);
+
+        // cloud
+        const cloud = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cloud');
+        cloud.setScale(0.5);
+
+        
+        this.inventoryUI = new InventoryUI(this);
+
+
+
+        const inventory = this.inventoryUI.inventory;
+        console.log(inventory);
+
+        const paperItem = new InventoryItem('Paper','A piece of paper');
+
+
+        paperItem.createItemText(this, gameWidth *.35, gameHeight * .9);
+
+        paperItem.text.setInteractive();
+        paperItem.text.on('pointerdown', () => {
+            console.log('paper item clicked')
+            this.inventoryUI.collectItem(paperItem);
+            paperItem.text.destroy();
+            console.log(inventory);
+        });
+
+        let recognizer = new webkitSpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = "en-US";
+        recognizer.start();
+        console.log("recognizer started");
+        let isInventoryOpen = false;
+        let paperFOUND = false;
+        let paperImageCount = 0;
+        let makingWish = false; 
+        let actionExecuted = false;
+
+        
+        const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper1');
+        paper1.setScale(0.5);
+        paper1.alpha = 0;
+
+        const paper2 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper2');
+        paper2.setScale(0.5);
+        paper2.alpha = 0;
+
+        const paper3 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper3');
+        paper3.setScale(0.5);
+        paper3.alpha = 0;
+
+        const paper4 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper4');
+        paper4.setScale(0.5);
+        paper4.alpha = 0;
+
+        function updatePaperImage(){
+            switch(paperImageCount){
+                case 1:
+                    paper1.alpha = 1;
+                    break;
+                case 2:
+                    paper1.alpha = 0;
+                    paper2.alpha = 1;
+                    break;
+                case 3:
+                    paper2.alpha = 0;
+                    paper3.alpha = 1;
+                    break;
+                case 4:
+                    paper3.alpha = 0;
+                    paper4.alpha = 1;
+                    break;
+                
+            }
+        }
+
+        recognizer.onresult = (event) => {
+            if (!this.recognitionInProgress) {
+                for(let i = event.resultIndex; i < event.results.length; i++){
+                    const transcript = event.results[i][0].transcript.toLowerCase();
+                    console.log(transcript); 
+                    if (transcript.includes("open") && !isInventoryOpen){  
+                        // recognition is in progress
+                        // this.recognitionInProgress = false;
+                        // toggle inventory
+                        this.inventoryUI.toggleInventory();
+                        isInventoryOpen = true;
+                    }
+
+                    if(transcript.includes("close") && isInventoryOpen){
+                        // this.recognitionInProgress = false;
+                        this.inventoryUI.toggleInventory();
+                        isInventoryOpen = false;
+                    }
+
+                    if (transcript.includes("paper") && inventory.length === 1){
+                        console.log('paper found');
+                        this.recognitionInProgress = false;
+                        paperImageCount = 1;
+                        paperFOUND = true;
+                        updatePaperImage();
+                        makeWishText.alpha = 1;
+                        actionExecuted = true;
+                        makingWish = true;
+                        makeWishText.setText('Wish: '); // Clear previous wishes
+
+
+                    }
+                    if (transcript.includes("fold") && paperFOUND && paperImageCount > 0 && paperImageCount < 4){
+                        this.recognitionInProgress = false;
+                        console.log('paper folded');
+                        paperImageCount++;
+                        updatePaperImage();
+
+                        
+                       
+                    }
+
+
+                    if (makingWish){
+                        this.time.addEvent({
+                            delay : 5000,
+
+                            callback : () => {
+                                console.log('delay completed');
+                                makeWishText.setText('Wish:' + transcript); // Clear previous wishes
+                                // actionExecuted = false;
+                                makingWish = false;
+                            }
+                        })
+                       
+                        // makeWishText.alpha = 0; // Hide wish text
+                        
+                    }
+                   
+                }}}
+
 
     }
+
 
 }
 
@@ -895,7 +1109,7 @@ const config = {
     },
     
     //ConfigureScene,Menu,firstLevel
-    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,Recordance],
+    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,Recordance,makeAWish],
 }
 
 const game = new Phaser.Game(config);

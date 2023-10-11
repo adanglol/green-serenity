@@ -10,7 +10,7 @@ class InventoryItem {
 
     createItemText(scene, x, y) {
         this.text = scene.add.text(x, y, this.name, {
-            fontSize: '20px',
+            fontSize: '40px',
             fill: '#fff',
             fontFamily: this.fontproperties.font,
         });
