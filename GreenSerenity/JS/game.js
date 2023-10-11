@@ -55,6 +55,9 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('bug', '../ASSETS/whats_sound/minigame cricket bug.png');
         this.load.image('rain', '../ASSETS/whats_sound/minigame raincloud.png');
         this.load.image('WhatSoundBackground', '../ASSETS/whats_sound/minigame mine background.png');
+        this.load.audio('bird_mp3', '../ASSETS/whats_sound/bird.mp3');
+        this.load.audio('cricket_mp3', '../ASSETS/whats_sound/cricket.mp3');
+        this.load.audio('rain_mp3', '../ASSETS/whats_sound/rain.mp3');
 
     }
     create(){
@@ -729,9 +732,15 @@ class whatSound extends ConfigureScene{
         background.displayWidth = gameWidth;
         background.displayHeight = gameHeight; 
 
-        // background ambiance?
+        const BirdSound = this.sound.add('bird_mp3');
+        const CricketSound = this.sound.add('cricket_mp3');
+        const RainSound = this.sound.add('rain_mp3');
+        
         // put first audio here along
-
+        function onStart() {
+            BirdSound.play();
+            
+        }
 
         let recognizer = new webkitSpeechRecognition();
         recognizer.continuous = true;
@@ -745,7 +754,9 @@ class whatSound extends ConfigureScene{
                 for (let i = event.resultIndex; i < event.results.length; i++){
                     const transcript = event.results[i][0].transcript.toLowerCase();
                     console.log(transcript); 
-                 //   if (transcript.includes ("bird") && !)
+                    if (transcript.includes ("bird") && !BirdSound) {
+                        
+                    } 
                 }
             }
         }
