@@ -411,6 +411,7 @@ class makeAWish extends ConfigureScene {
         let paperImageCount = 0;
         let makingWish = false; 
         let actionExecuted = false;
+        let codeBlockExecuted = false;
 
         
         const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper1');
@@ -516,7 +517,8 @@ class makeAWish extends ConfigureScene {
                         updatePaperImage();
 
                     }
-                    if (transcript.includes("throw") && paperFOUND && paperImageCount === 5){
+                    if (transcript.includes("throw") && paperFOUND && paperImageCount === 5 && !codeBlockExecuted){
+                        codeBlockExecuted = true;
                         this.recognitionInProgress = false;
                         console.log('paper flying');
                         
