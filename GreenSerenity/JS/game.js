@@ -74,7 +74,7 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('airplane3', '../ASSETS/makeWish/Lvl 3 paper f3.png');
         this.load.image('airplane4', '../ASSETS/makeWish/Lvl 3 paper f4.png');
         // sun
-        this.load.image('sunShade', '../ASSETS/makeWish/Lvl 3 Sun Shade.png');
+        this.load.image('sunShade', '../ASSETS/makeWish/Lvl 3 Sun shade.png');
         this.load.image('sun', '../ASSETS/makeWish/Lvl 3 Sun.png');
         this.load.image('waterShade', '../ASSETS/makeWish/Lvl 3 Water shade.png');
 
