@@ -148,6 +148,10 @@ class InventoryUI {
         // this.inventoryUIContainer.removeAll(true);
         this.toggleInventory();
     }
+    destroy(){
+        this.inventoryButton.destroy();
+        this.inventoryUIContainer.destroy();
+    }
  
 
    

@@ -50,6 +50,16 @@ class ConfigureScene extends Phaser.Scene {
         this.load.audio('racoonSounds', '../ASSETS/RacoonSounds.wav');
         this.load.audio('foxSounds', '../ASSETS/CoyoteSound.wav');
 
+        // Recordance Assets
+        this.load.image('recordanceBackground', '../ASSETS/RecordanceBg.png');
+        this.load.image('recordanceTitle', '../ASSETS/Recordance.png');
+        this.load.image('recordancePrompt','../ASSETS/RecordancePrompt.png');
+        this.load.image('recordanceNotes', '../ASSETS/RecordanceNotes.png');
+        this.load.image('channelOne', '../ASSETS/RadioChannel1.png');
+        this.load.image('channelTwo', '../ASSETS/RadioChannel2.png');
+        this.load.image('channelThree', '../ASSETS/RadioChannel3.png');
+        this.load.image('channelFour', '../ASSETS/RadioChannel4.png');
+
         //what's that sound
         this.load.image('bird', '../ASSETS/whats_sound/mini game bird.png');
         this.load.image('bug', '../ASSETS/whats_sound/minigame cricket bug.png');
@@ -557,6 +567,32 @@ class makeAWish extends ConfigureScene {
                                 airplane3.alpha = 0;
                                 airplane4.alpha = 1;
                                 airplane4.alpha = 0;
+                                // this.cameras.main.setBackgroundColor('#ffffff'); // 'ffffff' is the hex color for white
+                                sun.destroy();
+                                sunShade.destroy();
+                                waterShade.destroy();
+                                cliff.destroy();
+                                cloud.destroy();
+                                background.destroy();
+                                this.inventoryUI.destroy();
+                                this.cameras.main.setBackgroundColor('#ffffff'); // 'ffffff' is the hex color for white\
+
+                                const wishText = this.add.text(gameWidth * .2, gameHeight * .5, 'Your wish has been granted!', {
+                                    fontFamily: this.fontproperties.font,
+                                    fontSize: 50,
+                                    color : 'black'
+                                });
+
+                                this.time.addEvent({
+                                    delay : 1000,
+                                    callback : () => {
+                                        console.log('delay completed');
+                                        this.scene.start('whosLoudest');
+                                    }
+                                });
+
+
+
 
                             }
                         });
@@ -766,7 +802,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
 
                                                                 },
                                                             });
@@ -802,7 +838,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
 
                                                                 },
                                                             });
@@ -833,7 +869,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
 
                                                                 },
                                                             });
@@ -864,7 +900,7 @@ class whosLoudest extends ConfigureScene{
                                                                 delay :5000,
                                                                 callback : () => {
                                                                     console.log('delay completed level transition');
-                                                                    this.scene.start('findSound');
+                                                                    this.scene.start('Recordance');
                                                                 },
                                                             });
                                                         });
@@ -991,17 +1027,118 @@ class whosLoudest extends ConfigureScene{
 // -----------------------------Find Sound Scene------------------------------------
 // ---------------------------------------------------------------------------
 
-class findSound extends ConfigureScene{
+
+class Recordance extends ConfigureScene{
     constructor(){
-        super('findSound');
+        super('Recordance');
     }
     create(){
-        this.add.text(20,20, "Level5 Scene", {
+        this.add.text(20,20, "Recordance Scene", {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
         },);
 
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+
+        // background
+        const background = this.add.sprite(0,0, 'recordanceBackground');
+        background.setOrigin(0,0);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight;
+
+        const title = this.add.sprite(gameWidth / 2, gameHeight * .5, 'recordanceTitle');
+        title.setScale(0.7);
+        const startText = this.add.text(gameWidth *.65, gameHeight * .85, 'Say "Start" to begin the game!', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 25,
+        });
+
+
+        const channelButton = this.add.sprite(gameWidth * 0.5, gameHeight * 0.5, 'channelOne');
+        channelButton.setScale(0.6);
+
+
+        let recognizer = new webkitSpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = "en-US";
+        recognizer.start();
+        console.log("recognizer started");
+
+        recognizer.onresult = (event) => {
+            if (!this.recognitionInProgress) {
+                for(let i = event.resultIndex; i < event.results.length; i++){
+                    const transcript = event.results[i][0].transcript.toLowerCase();
+                    console.log(transcript); 
+                    if(transcript.includes('start')){
+                        title.destroy();
+                        startText.destroy();
+                        channelButton.destroy();
+                        recognizer.stop();
+
+                        const prompt = this.add.sprite(gameWidth /2 , gameHeight * .4, 'recordancePrompt');
+                        prompt.setScale(0.6);
+
+                        const Wheel = this.anims.create({
+                            key: 'scrollWheel',
+                            frames: [
+                                { key: 'channelOne' },
+                                { key: 'channelTwo' },
+                                { key: 'channelThree' },
+                                { key: 'channelFour' },
+                            ],
+                            frameRate: 10,
+                        });
+
+
+
+
+
+                        const channelOne = this.add.sprite(gameWidth *.5, gameHeight *.5, 'channelOne');
+                        channelOne.setScale(0.6);
+
+
+
+                        // Define an array of frame names in the desired order
+                        const frameNames = ['channelOne', 'channelTwo', 'channelThree', 'channelFour'];
+
+                        // Initialize the current frame index
+                        let currentFrameIndex = 0;
+
+                        // Set the initial frame
+                        channelOne.setTexture(frameNames[currentFrameIndex]);
+
+                        this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+                            console.log('wheel');
+
+                            if (deltaY > 0) {
+                                console.log('down');
+                                // Decrement the frame index (scrolling down)
+                                currentFrameIndex = (currentFrameIndex - 1 + frameNames.length) % frameNames.length;
+                            } else if (deltaY < 25) {
+                                console.log('up');
+                                // Increment the frame index (scrolling up)
+                                currentFrameIndex = (currentFrameIndex + 1) % frameNames.length;
+                            }
+
+                            // Set the sprite to the new frame
+                            channelOne.setTexture(frameNames[currentFrameIndex]);
+                        });
+
+
+
+
+
+
+
+                    } 
+                }   
+            }
+        }
     }
+
 
 }
 
@@ -1095,7 +1232,7 @@ const config = {
     },
     
     //ConfigureScene,Menu,firstLevel
-    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,findSound,makeAWish],
+    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,Recordance,makeAWish],
 }
 
 const game = new Phaser.Game(config);
