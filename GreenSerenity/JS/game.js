@@ -115,7 +115,7 @@ class Menu extends ConfigureScene {
 
         this.startButton = this.add.text(this.scale.width *.1,this.scale.height * .3, 'Say "start" to begin the first game or click me!', {
             fontFamily: this.fontproperties.font,
-            fontSize: 50,
+            fontSize: 30,
         },);
 
         let recognizer = new webkitSpeechRecognition();
@@ -169,7 +169,7 @@ class Menu extends ConfigureScene {
 
         this.theLoudestButton = this.add.text(this.scale.width *.1,this.scale.height * .5, 'Say "Loudest" to play whos Loudest Mini Game or click me!', {
             fontFamily: this.fontproperties.font,
-            fontSize: 50,
+            fontSize: 30,
         },);
 
         this.theLoudestButton.setInteractive();
@@ -429,6 +429,26 @@ class makeAWish extends ConfigureScene {
         paper4.setScale(0.5);
         paper4.alpha = 0;
 
+        const paper5 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper5');
+        paper5.setScale(0.5);
+        paper5.alpha = 0;
+
+        const airplane1 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'airplane1');
+        airplane1.setScale(0.5);
+        airplane1.alpha = 0;
+
+        const airplane2 = this.add.sprite(gameWidth * .5, gameHeight * .6, 'airplane2');
+        airplane2.setScale(0.5);
+        airplane2.alpha = 0;
+
+        const airplane3 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'airplane3');
+        airplane3.setScale(0.5);
+        airplane3.alpha = 0;
+
+        const airplane4 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'airplane4');
+        airplane4.setScale(0.5);
+        airplane4.alpha = 0;
+
         function updatePaperImage(){
             switch(paperImageCount){
                 case 1:
@@ -445,6 +465,10 @@ class makeAWish extends ConfigureScene {
                 case 4:
                     paper3.alpha = 0;
                     paper4.alpha = 1;
+                    break;
+                case 5:
+                    paper4.alpha = 0;
+                    paper5.alpha = 1;
                     break;
                 
             }
@@ -482,20 +506,65 @@ class makeAWish extends ConfigureScene {
 
 
                     }
-                    if (transcript.includes("fold") && paperFOUND && paperImageCount > 0 && paperImageCount < 4){
+                    if (transcript.includes("fold") && paperFOUND && paperImageCount > 0 && paperImageCount < 5){
                         this.recognitionInProgress = false;
                         console.log('paper folded');
+                        if (paperImageCount <= 1){
+                            makeWishText.alpha = 0;
+                        }
                         paperImageCount++;
                         updatePaperImage();
 
+                    }
+                    if (transcript.includes("throw") && paperFOUND && paperImageCount === 5){
+                        this.recognitionInProgress = false;
+                        console.log('paper flying');
                         
+                        this.time.addEvent({
+                            delay : 1000,
+                            callback : () => {
+                                console.log('delay completed');
+                                paper5.alpha = 0;
+                                airplane1.alpha = 1;
+                            }
+                        });
+                        this.time.addEvent({
+                            delay : 2000,
+                            callback : () => {
+                                console.log('delay completed');
+                                airplane1.alpha = 0;
+                                airplane2.alpha = 1;
+
+                            }
+                        });
+
+                        this.time.addEvent({
+                            delay : 3000,
+                            callback : () => {
+                                console.log('delay completed');
+                                airplane2.alpha = 0;
+                                airplane3.alpha = 1;
+
+                            }
+                        });
+
+                        this.time.addEvent({
+                            delay : 4000,
+                            callback : () => {
+                                console.log('delay completed');
+                                airplane3.alpha = 0;
+                                airplane4.alpha = 1;
+                                airplane4.alpha = 0;
+
+                            }
+                        });
                        
                     }
 
 
                     if (makingWish){
                         this.time.addEvent({
-                            delay : 5000,
+                            delay : 6000,
 
                             callback : () => {
                                 console.log('delay completed');
