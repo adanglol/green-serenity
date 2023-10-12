@@ -385,10 +385,10 @@ class makeAWish extends ConfigureScene {
 
         // water shade
         const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .5, 'waterShade');
-        waterShade.setScale(0.6);
+        waterShade.setScale(0.55);
 
         // cliff
-        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cliff');
+        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .32, 'cliff');
         cliff.setScale(0.7);
 
         // cloud
@@ -583,7 +583,7 @@ class makeAWish extends ConfigureScene {
                                 this.inventoryUI.destroy();
                                 this.cameras.main.setBackgroundColor('#ffffff'); // 'ffffff' is the hex color for white\
 
-                                const wishText = this.add.text(gameWidth * .2, gameHeight * .5, 'Your wish has been granted!', {
+                                const wishText = this.add.text(gameWidth * .5, gameHeight * .5, 'Your wish has been granted!', {
                                     fontFamily: this.fontproperties.font,
                                     fontSize: 50,
                                     color : 'black'
@@ -650,7 +650,7 @@ class whosLoudest extends ConfigureScene{
         background.displayHeight = gameHeight;
 
 
-        const loudestText = this.add.text(gameWidth / 2 *.5,gameHeight / 2 *.1, "Who's the Loudest?", {
+        const loudestText = this.add.text(gameWidth *.1,gameHeight / 2 *.1, "Who's the Loudest?", {
             fontFamily: this.fontproperties.font,
             fontSize: 80,
         },);
@@ -678,7 +678,7 @@ class whosLoudest extends ConfigureScene{
             onComplete: () => {
                 console.log('tween completed');
                 const slug = this.add.sprite(gameWidth * .35, gameHeight *.7 , 'slug');
-                slug.setScale(0.7);
+                slug.setScale(0.5);
 
                 const butterfly = this.add.sprite(gameWidth * .375, gameHeight *.55 , 'butterfly');
                 butterfly.setScale(0.4);
@@ -691,8 +691,8 @@ class whosLoudest extends ConfigureScene{
 
                 this.tweens.add({
                     targets: slug,
-                    scaleX: 1,
-                    scaleY: 1,
+                    scaleX: .7,
+                    scaleY: .7,
                     duration: 2000,
                     ease: 'Linear',
                     yoyo: true,
@@ -1056,13 +1056,13 @@ class Recordance extends ConfigureScene{
         background.displayHeight = gameHeight;
 
         const title = this.add.sprite(gameWidth / 2, gameHeight * .5, 'recordanceTitle');
-        title.setScale(0.7);
+        title.setScale(0.6);
        
-        const startText = this.add.sprite(gameWidth * .5, gameHeight * .45, 'startText');
-        startText.setScale(0.7);
+        const startText = this.add.sprite(gameWidth * .5, gameHeight * .5, 'startText');
+        startText.setScale(0.5);
 
-        const channelButton = this.add.sprite(gameWidth * 0.5, gameHeight * 0.5, 'channelOne');
-        channelButton.setScale(0.6);
+        const channelButton = this.add.sprite(gameWidth * 0.5, gameHeight * 0.52, 'channelOne');
+        channelButton.setScale(0.5);
 
 
         let recognizer = new webkitSpeechRecognition();
@@ -1083,14 +1083,14 @@ class Recordance extends ConfigureScene{
                         channelButton.destroy();
                         recognizer.stop();
 
-                        const prompt = this.add.sprite(gameWidth /2 , gameHeight * .4, 'recordancePrompt');
-                        prompt.setScale(0.6);
+                        const prompt = this.add.sprite(gameWidth *.4 , gameHeight * .4, 'recordancePrompt');
+                        prompt.setScale(0.5);
 
-                        const scrollPrompt = this.add.sprite(gameWidth /2 , gameHeight * .45, 'scrollText');
-                        scrollPrompt.setScale(0.7);
+                        const scrollPrompt = this.add.sprite(gameWidth /2 , gameHeight * .5, 'scrollText');
+                        scrollPrompt.setScale(0.5);
 
-                        const channelOne = this.add.sprite(gameWidth *.5, gameHeight *.5, 'channelOne');
-                        channelOne.setScale(0.6);
+                        const channelOne = this.add.sprite(gameWidth *.5, gameHeight *.52, 'channelOne');
+                        channelOne.setScale(0.5);
 
                         // Define an array of frame names in the desired order
                         const frameNames = ['channelOne', 'channelTwo', 'channelThree', 'channelFour'];
