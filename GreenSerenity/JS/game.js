@@ -59,6 +59,12 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('channelTwo', '../ASSETS/RadioChannel2.png');
         this.load.image('channelThree', '../ASSETS/RadioChannel3.png');
         this.load.image('channelFour', '../ASSETS/RadioChannel4.png');
+        this.load.image('startText', '../ASSETS/StartInstructions.png');
+        this.load.image('scrollText', '../ASSETS/ScrollWheelInstructions.png');
+        this.load.audio('channelOneSound', '../ASSETS/Channel1.wav');
+        this.load.audio('channelTwoSound', '../ASSETS/Channel2.wav');
+        this.load.audio('channelThreeSound', '../ASSETS/Channel3.wav');
+        this.load.audio('channelFourSound', '../ASSETS/Channel4.wav');
 
         //what's that sound
         this.load.image('bird', '../ASSETS/whats_sound/mini game bird.png');
@@ -1031,6 +1037,7 @@ class whosLoudest extends ConfigureScene{
 class Recordance extends ConfigureScene{
     constructor(){
         super('Recordance');
+        
     }
     create(){
         this.add.text(20,20, "Recordance Scene", {
@@ -1050,11 +1057,9 @@ class Recordance extends ConfigureScene{
 
         const title = this.add.sprite(gameWidth / 2, gameHeight * .5, 'recordanceTitle');
         title.setScale(0.7);
-        const startText = this.add.text(gameWidth *.65, gameHeight * .85, 'Say "Start" to begin the game!', {
-            fontFamily: this.fontproperties.font,
-            fontSize: 25,
-        });
-
+       
+        const startText = this.add.sprite(gameWidth * .5, gameHeight * .45, 'startText');
+        startText.setScale(0.7);
 
         const channelButton = this.add.sprite(gameWidth * 0.5, gameHeight * 0.5, 'channelOne');
         channelButton.setScale(0.6);
@@ -1081,28 +1086,17 @@ class Recordance extends ConfigureScene{
                         const prompt = this.add.sprite(gameWidth /2 , gameHeight * .4, 'recordancePrompt');
                         prompt.setScale(0.6);
 
-                        const Wheel = this.anims.create({
-                            key: 'scrollWheel',
-                            frames: [
-                                { key: 'channelOne' },
-                                { key: 'channelTwo' },
-                                { key: 'channelThree' },
-                                { key: 'channelFour' },
-                            ],
-                            frameRate: 10,
-                        });
-
-
-
-
+                        const scrollPrompt = this.add.sprite(gameWidth /2 , gameHeight * .45, 'scrollText');
+                        scrollPrompt.setScale(0.7);
 
                         const channelOne = this.add.sprite(gameWidth *.5, gameHeight *.5, 'channelOne');
                         channelOne.setScale(0.6);
 
-
-
                         // Define an array of frame names in the desired order
                         const frameNames = ['channelOne', 'channelTwo', 'channelThree', 'channelFour'];
+
+                        const frameDuration = 3000;
+                        const targetFrameIndex = 3
 
                         // Initialize the current frame index
                         let currentFrameIndex = 0;
@@ -1112,6 +1106,7 @@ class Recordance extends ConfigureScene{
 
                         this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
                             console.log('wheel');
+                            scrollPrompt.destroy();
 
                             if (deltaY > 0) {
                                 console.log('down');
@@ -1125,7 +1120,35 @@ class Recordance extends ConfigureScene{
 
                             // Set the sprite to the new frame
                             channelOne.setTexture(frameNames[currentFrameIndex]);
+
+                            // Define our sounds here for each channel
+                            const channelOneSound = this.sound.add('channelOneSound');
+                            const channelTwoSound = this.sound.add('channelTwoSound');
+                            const channelThreeSound = this.sound.add('channelThreeSound');
+                            const channelFourSound = this.sound.add('channelFourSound');
+
+                            switch(currentFrameIndex){
+                                case 0:
+                                    this.sound.stopAll();
+                                    channelOneSound.play();
+                                    break;
+                                case 1:
+                                    this.sound.stopAll();  
+                                    channelTwoSound.play();
+                                    break;
+                                case 2:
+                                    this.sound.stopAll();  
+                                    channelThreeSound.play();
+                                    break;
+                                case 3:
+                                    this.sound.stopAll();  
+                                    channelFourSound.play();
+                                    break;
+                            }
                         });
+                        
+
+                       
 
 
 
@@ -1147,69 +1170,69 @@ class Recordance extends ConfigureScene{
 // -----------------------------What Sound Scene------------------------------------
 // ---------------------------------------------------------------------------
 
-class whatSound extends ConfigureScene{
-    constructor(){
-        super('whatSound');
-    }
-    create(){
-        this.add.text(20,20, "Level6 Scene", {
-            fontFamily: this.fontproperties.font,
-            fontSize: 30,
-        },);
+// class whatSound extends ConfigureScene{
+//     constructor(){
+//         super('whatSound');
+//     }
+//     create(){
+//         this.add.text(20,20, "Level6 Scene", {
+//             fontFamily: this.fontproperties.font,
+//             fontSize: 30,
+//         },);
 
-        const gameWidth = this.scale.width;
-        const gameHeight = this.scale.height;
-        const background = this.add.sprite(0,0, 'whatSoundBackground');
-        background.setOrigin(0,0);
+//         const gameWidth = this.scale.width;
+//         const gameHeight = this.scale.height;
+//         const background = this.add.sprite(0,0, 'whatSoundBackground');
+//         background.setOrigin(0,0);
 
-        background.displayWidth = gameWidth;
-        background.displayHeight = gameHeight; 
+//         background.displayWidth = gameWidth;
+//         background.displayHeight = gameHeight; 
 
-        const BirdSound = this.sound.add('bird_mp3');
-        const CricketSound = this.sound.add('cricket_mp3');
-        const RainSound = this.sound.add('rain_mp3');
+//         const BirdSound = this.sound.add('bird_mp3');
+//         const CricketSound = this.sound.add('cricket_mp3');
+//         const RainSound = this.sound.add('rain_mp3');
         
-        // put first audio here along
-        function onStart() {
-            BirdSound.play();
+//         // put first audio here along
+//         function onStart() {
+//             BirdSound.play();
             
-        }
+//         }
 
-        let recognizer = new webkitSpeechRecognition();
-        recognizer.continuous = true;
-        recognizer.interimResults = true;
-        recognizer.lang = "en-US";
-        recognizer.start();
-        console.log("recognizer started");
+//         let recognizer = new webkitSpeechRecognition();
+//         recognizer.continuous = true;
+//         recognizer.interimResults = true;
+//         recognizer.lang = "en-US";
+//         recognizer.start();
+//         console.log("recognizer started");
 
-        recognizer.onresult = (event) => {
-            if (!this,recognizerInprogress) {
-                for (let i = event.resultIndex; i < event.results.length; i++){
-                    const transcript = event.results[i][0].transcript.toLowerCase();
-                    console.log(transcript); 
-                    if (transcript.includes ("bird") && !BirdSound) {
-                        BirdSound.stop();
-                        CricketSound.play();
-                    } 
-                    if (transcript.includes ("cricket") && !CrciketSound) {
-                        CricketSound.stop();
-                        RainSound.Start();
-                    }
-                    if (transcript.includes ("rain") && !RainSound) {
-                        RainSound.stop();
-                        this.add.text(this.scale.width *.8, this.scale.height * .5, "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
-                        );
-                    }
-                    if (transcript.included ("next") && !Menu){
-                        
-                    }
-                }
-            }
-        }
+//         recognizer.onresult = (event) => {
+//             if (!this,recognizerInprogress) {
+//                 for (let i = event.resultIndex; i < event.results.length; i++){
+//                     const transcript = event.results[i][0].transcript.toLowerCase();
+//                     console.log(transcript); 
+//                     if (transcript.includes ("bird") && !BirdSound) {
+//                         BirdSound.stop();
+//                         CricketSound.play();
+//                     } 
+//                     if (transcript.includes ("cricket") && !CrciketSound) {
+//                         CricketSound.stop();
+//                         RainSound.Start();
+//                     }
+//                     if (transcript.includes ("rain") && !RainSound) {
+//                         RainSound.stop();
+//                         this.add.text(this.scale.width *.8, this.scale.height * .5, "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
+//                         );
+//                     }
+//                     if (transcript.included ("next") && !Menu){
 
-    }
+//                     }
+//                 }
+//             }
+//         }
 
-}
+//     }
+
+// }
 
 
 // ---------------------------------------------------------------------------
