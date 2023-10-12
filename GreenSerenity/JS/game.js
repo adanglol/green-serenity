@@ -1200,7 +1200,9 @@ class whatSound extends ConfigureScene{
                         this.add.text(this.scale.width *.8, this.scale.height * .5, "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
                         );
                     }
-                    if (transcript.included ("next") && !Menu)
+                    if (transcript.included ("next") && !Menu){
+                        
+                    }
                 }
             }
         }
