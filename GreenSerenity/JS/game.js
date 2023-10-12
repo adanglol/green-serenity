@@ -1188,8 +1188,19 @@ class whatSound extends ConfigureScene{
                     const transcript = event.results[i][0].transcript.toLowerCase();
                     console.log(transcript); 
                     if (transcript.includes ("bird") && !BirdSound) {
-                        
+                        BirdSound.stop();
+                        CricketSound.play();
                     } 
+                    if (transcript.includes ("cricket") && !CrciketSound) {
+                        CricketSound.stop();
+                        RainSound.Start();
+                    }
+                    if (transcript.includes ("rain") && !RainSound) {
+                        RainSound.stop();
+                        this.add.text(this.scale.width *.8, this.scale.height * .5, "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
+                        );
+                    }
+                    if (transcript.included ("next") && !Menu)
                 }
             }
         }
