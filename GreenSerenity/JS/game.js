@@ -1061,8 +1061,13 @@ class Recordance extends ConfigureScene{
         const startText = this.add.sprite(gameWidth * .5, gameHeight * .5, 'startText');
         startText.setScale(0.5);
 
-        const channelButton = this.add.sprite(gameWidth * 0.5, gameHeight * 0.52, 'channelOne');
+        const channelButton = this.add.sprite(gameWidth * 0.51, gameHeight * 0.55, 'channelOne');
         channelButton.setScale(0.5);
+
+        console.log('Initial position of channelButton:');
+        console.log('X:', channelButton.x);
+        console.log('Y:', channelButton.y);
+
 
 
         let recognizer = new webkitSpeechRecognition();
@@ -1089,14 +1094,17 @@ class Recordance extends ConfigureScene{
                         const scrollPrompt = this.add.sprite(gameWidth /2 , gameHeight * .5, 'scrollText');
                         scrollPrompt.setScale(0.5);
 
-                        const channelOne = this.add.sprite(gameWidth *.5, gameHeight *.52, 'channelOne');
+                        const channelOne = this.add.sprite(gameWidth *.51, gameHeight *.55, 'channelOne');
                         channelOne.setScale(0.5);
+                        
+                        console.log('Initial position of channelOne:');
+                        console.log('X:', channelOne.x);
+                        console.log('Y:', channelOne.y);
+
 
                         // Define an array of frame names in the desired order
                         const frameNames = ['channelOne', 'channelTwo', 'channelThree', 'channelFour'];
 
-                        const frameDuration = 3000;
-                        const targetFrameIndex = 3
 
                         // Initialize the current frame index
                         let currentFrameIndex = 0;
@@ -1143,6 +1151,25 @@ class Recordance extends ConfigureScene{
                                 case 3:
                                     this.sound.stopAll();  
                                     channelFourSound.play();
+                                    this.time.addEvent({
+                                        delay : 4000,
+                                        callback : () => {
+                                            // console.log('delay completed');
+                                            // this.scene.start('Menu');
+                                            const recordanceNotes = this.add.sprite(gameWidth * .5, gameHeight * .5, 'recordanceNotes');
+                                            recordanceNotes.setScale(0.4);
+                                            prompt.destroy();
+                                            this.time.addEvent({
+                                                delay : 2000,
+                                                callback : () => {
+                                                    console.log('delay completed');
+                                                    this.sound.stopAll();
+                                                    this.scene.start('whatSound');
+                                                }
+                                            });
+                                           
+                                        }
+                                    });
                                     break;
                             }
                         });
@@ -1170,69 +1197,69 @@ class Recordance extends ConfigureScene{
 // -----------------------------What Sound Scene------------------------------------
 // ---------------------------------------------------------------------------
 
-// class whatSound extends ConfigureScene{
-//     constructor(){
-//         super('whatSound');
-//     }
-//     create(){
-//         this.add.text(20,20, "Level6 Scene", {
-//             fontFamily: this.fontproperties.font,
-//             fontSize: 30,
-//         },);
+class whatSound extends ConfigureScene{
+    constructor(){
+        super('whatSound');
+    }
+    create(){
+        this.add.text(20,20, "Level6 Scene", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 30,
+        },);
 
-//         const gameWidth = this.scale.width;
-//         const gameHeight = this.scale.height;
-//         const background = this.add.sprite(0,0, 'whatSoundBackground');
-//         background.setOrigin(0,0);
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+        const background = this.add.sprite(0,0, 'whatSoundBackground');
+        background.setOrigin(0,0);
 
-//         background.displayWidth = gameWidth;
-//         background.displayHeight = gameHeight; 
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight; 
 
-//         const BirdSound = this.sound.add('bird_mp3');
-//         const CricketSound = this.sound.add('cricket_mp3');
-//         const RainSound = this.sound.add('rain_mp3');
+        const BirdSound = this.sound.add('bird_mp3');
+        const CricketSound = this.sound.add('cricket_mp3');
+        const RainSound = this.sound.add('rain_mp3');
         
-//         // put first audio here along
-//         function onStart() {
-//             BirdSound.play();
+        // put first audio here along
+        function onStart() {
+            BirdSound.play();
             
-//         }
+        }
 
-//         let recognizer = new webkitSpeechRecognition();
-//         recognizer.continuous = true;
-//         recognizer.interimResults = true;
-//         recognizer.lang = "en-US";
-//         recognizer.start();
-//         console.log("recognizer started");
+        let recognizer = new webkitSpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = "en-US";
+        recognizer.start();
+        console.log("recognizer started");
 
-//         recognizer.onresult = (event) => {
-//             if (!this,recognizerInprogress) {
-//                 for (let i = event.resultIndex; i < event.results.length; i++){
-//                     const transcript = event.results[i][0].transcript.toLowerCase();
-//                     console.log(transcript); 
-//                     if (transcript.includes ("bird") && !BirdSound) {
-//                         BirdSound.stop();
-//                         CricketSound.play();
-//                     } 
-//                     if (transcript.includes ("cricket") && !CrciketSound) {
-//                         CricketSound.stop();
-//                         RainSound.Start();
-//                     }
-//                     if (transcript.includes ("rain") && !RainSound) {
-//                         RainSound.stop();
-//                         this.add.text(this.scale.width *.8, this.scale.height * .5, "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
-//                         );
-//                     }
-//                     if (transcript.included ("next") && !Menu){
+        recognizer.onresult = (event) => {
+            if (!this,recognizerInprogress) {
+                for (let i = event.resultIndex; i < event.results.length; i++){
+                    const transcript = event.results[i][0].transcript.toLowerCase();
+                    console.log(transcript); 
+                    if (transcript.includes ("bird") && !BirdSound) {
+                        BirdSound.stop();
+                        CricketSound.play();
+                    } 
+                    if (transcript.includes ("cricket") && !CrciketSound) {
+                        CricketSound.stop();
+                        RainSound.Start();
+                    }
+                    if (transcript.includes ("rain") && !RainSound) {
+                        RainSound.stop();
+                        this.add.text(this.scale.width *.8, this.scale.height * .5, "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
+                        );
+                    }
+                    if (transcript.included ("next") && !Menu){
 
-//                     }
-//                 }
-//             }
-//         }
+                    }
+                }
+            }
+        }
 
-//     }
+    }
 
-// }
+}
 
 
 // ---------------------------------------------------------------------------
@@ -1268,7 +1295,7 @@ const config = {
     },
     
     //ConfigureScene,Menu,firstLevel
-    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,Recordance,makeAWish],
+    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,Recordance,makeAWish,whatSound,rememberGong],
 }
 
 const game = new Phaser.Game(config);
