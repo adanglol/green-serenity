@@ -1491,7 +1491,7 @@ class whatSound extends ConfigureScene{
 
         const gameWidth = this.scale.width;
         const gameHeight = this.scale.height;
-        const background = this.add.sprite(0,0, 'whatSoundBackground');
+        const background = this.add.sprite(0,0, 'WhatSoundBackground');
         background.setOrigin(0,0);
 
         background.displayWidth = gameWidth;
@@ -1502,7 +1502,7 @@ class whatSound extends ConfigureScene{
         const RainSound = this.sound.add('rain_mp3');
         
         // put first audio here along
-        function onStart() {
+        onStart : () => {
             BirdSound.play();
             
         }
@@ -1519,20 +1519,20 @@ class whatSound extends ConfigureScene{
                 for (let i = event.resultIndex; i < event.results.length; i++){
                     const transcript = event.results[i][0].transcript.toLowerCase();
                     console.log(transcript); 
-                    if (transcript.includes ("bird") && !BirdSound) {
+                    if (transcript.includes ("bird") && !BirdSound){
                         BirdSound.stop();
                         CricketSound.play();
                     } 
-                    if (transcript.includes ("cricket") && !CrciketSound) {
+                    if (transcript.includes ("cricket") && !CrciketSound){
                         CricketSound.stop();
                         RainSound.Start();
                     }
-                    if (transcript.includes ("rain") && !RainSound) {
+                    if (transcript.includes ("rain") && !RainSound){
                         RainSound.stop();
                         this.add.text(this.scale.width *.8, this.scale.height * .5, "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
                         );
                     }
-                    if (transcript.included ("next") && !Menu){
+                    if (transcript.included ("next") && !rememberGong){
 
                     }
                 }
