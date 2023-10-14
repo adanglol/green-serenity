@@ -108,7 +108,7 @@ class ConfigureScene extends Phaser.Scene {
                 families: ['Modak']
             },
             active: () => {
-                game.scene.start('Recordance');
+                game.scene.start('Menu');
             },
         });
 
