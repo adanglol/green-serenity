@@ -490,7 +490,7 @@ class Menu extends ConfigureScene {
 
         whatsThatSoundText.on('pointerdown', () => {
             recognizer.stop();
-            this.scene.start('whatsThatSound');
+            this.scene.start('whatSound');
         });
 
         rememberGongText.on('pointerdown', () => {
@@ -498,54 +498,6 @@ class Menu extends ConfigureScene {
             this.scene.start('rememberGong');
         });
 
-
-
-
-
-
-   
-
-    //     // start the game when the start button is clicked instead of saying "start" as another option
-    //     this.startButton.setInteractive();
-    //     this.startButton.on('pointerdown', () => {
-    //         recognizer.stop();
-    //         this.scene.start('firstLevel');
-    //     });
-
-    //     this.theLoudestButton = this.add.text(this.scale.width *.1,this.scale.height * .5, 'Say "Loudest" to play whos Loudest Mini Game or click me!', {
-    //         fontFamily: this.fontproperties.font,
-    //         fontSize: 30,
-    //     },);
-
-    //     this.theLoudestButton.setInteractive();
-    //     this.theLoudestButton.on('pointerdown', () => {
-    //         recognizer.stop();
-    //         this.scene.start('whosLoudest');
-    //     });
-
-    //     this.recordanceButton = this.add.text(this.scale.width *.1,this.scale.height * .7, 'Say "Record" to play Recordance Mini Game or click me!', {
-    //         fontFamily: this.fontproperties.font,
-    //         fontSize: 30,
-    //     });
-
-    //     this.recordanceButton.setInteractive();
-    //     this.recordanceButton.on('pointerdown', () => {
-    //         recognizer.stop();
-    //         this.scene.start('Recordance');
-    //     });
-
-
-    //     this.wishButton = this.add.text(this.scale.width *.1, this.scale.height *.9, 'Say "Wish" to play Make A Wish Minigame or click me!'
-    //     ,{
-    //         fontFamily : this.fontproperties.font,
-    //         fontSize: 30,
-    //     })
-    //     this.wishButton.setInteractive();
-
-    //     this.wishButton.on('pointerdown', () => {
-    //         recognizer.stop();
-    //         this.scene.start('makeAWish');
-    //     })
     }
 
 }
@@ -656,18 +608,18 @@ class firstLevel extends ConfigureScene {
 // -----------------------------Level2 Scene------------------------------------
 // ---------------------------------------------------------------------------
 
-class secondLevel extends ConfigureScene {
-    constructor(){
-        super('secondLevel');
-    }
-    create(){
-        this.add.text(20,20, "Level2 Scene", {
-            fontFamily: this.fontproperties.font,
-            fontSize: 30,
-        },);
+// class secondLevel extends ConfigureScene {
+//     constructor(){
+//         super('secondLevel');
+//     }
+//     create(){
+//         this.add.text(20,20, "Level2 Scene", {
+//             fontFamily: this.fontproperties.font,
+//             fontSize: 30,
+//         },);
 
-    }
-}
+//     }
+// }
 
 
 
@@ -1625,7 +1577,7 @@ const config = {
     },
     
     //ConfigureScene,Menu,firstLevel
-    scene : [ConfigureScene,Menu,firstLevel,whosLoudest,Recordance,makeAWish,whatSound,rememberGong],
+    scene : [ConfigureScene,Menu,firstLevel,makeAWish,whosLoudest,Recordance,whatSound,rememberGong],
 }
 
 const game = new Phaser.Game(config);
