@@ -1502,10 +1502,8 @@ class whatSound extends ConfigureScene{
         const RainSound = this.sound.add('rain_mp3');
         
         // put first audio here along
-        onStart : () => {
-            BirdSound.play();
-            
-        }
+
+        BirdSound.play();
 
         let recognizer = new webkitSpeechRecognition();
         recognizer.continuous = true;
