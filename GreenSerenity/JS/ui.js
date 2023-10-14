@@ -10,7 +10,7 @@ class InventoryUI {
         // Create a reference to the item count
         this.itemcount = 0;
         // font properties
-        this.fontproperties = {font:'Pixelify Sans'};
+        this.fontproperties = {font:'Modak'};
 
         // Create a container for the inventory UI elements
         this.inventoryUIContainer = this.scene.add.container(0, 0);
@@ -132,7 +132,7 @@ class InventoryUI {
                    item.name,
                  {
                  fontSize: fontSize,
-                 fill: '#fff',
+                 color : 'black',
                  fontFamily: this.fontproperties.font,
                  }
              );

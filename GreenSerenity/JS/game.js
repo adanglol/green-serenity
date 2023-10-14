@@ -26,7 +26,7 @@ class ConfigureScene extends Phaser.Scene {
     constructor(scenekey) {
         super(scenekey);
         // font properties
-        this.fontproperties = {font:'Pixelify Sans'};
+        this.fontproperties = {font:'Modak'};
         // flag for recognizing speech
         this.recognitionInProgress = false;
         // inventory flag
@@ -37,14 +37,19 @@ class ConfigureScene extends Phaser.Scene {
         // Load the font
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
+        // Menu 
+        this.load.image('menuBackground', '../ASSETS/Menu/BackgroundAsset.png');
+        this.load.image('menuLogo', '../ASSETS/Menu/Logo.png');
+        this.load.image('menuDivider', '../ASSETS/Menu/Divider.png');
+        this.load.image('greenBean', '../ASSETS/Menu/GBLOGO 1.png');
         // Who is the Loudest Assets
         this.load.image('whosLoudestBackground', '../ASSETS/whosLoudest.png');
         this.load.image('fox', '../ASSETS/fox.png');
         this.load.image('racoon', '../ASSETS/racoon.png');
         this.load.image('butterfly', '../ASSETS/butterfly.png');
         this.load.image('slug', '../ASSETS/slug.png');
+
         // audio assets who is the loudest
-        
         this.load.audio('slugSounds', '../ASSETS/slugSound.mp3');
         this.load.audio('butterflySounds', '../ASSETS/FireFlySound.wav');
         this.load.audio('racoonSounds', '../ASSETS/RacoonSounds.wav');
@@ -100,10 +105,10 @@ class ConfigureScene extends Phaser.Scene {
         // Use WebFont Loader to load Google Fonts
         WebFont.load({
             google: {
-                families: ['Pixelify Sans']
+                families: ['Modak']
             },
             active: () => {
-                game.scene.start('Menu');
+                game.scene.start('Recordance');
             },
         });
 
@@ -123,17 +128,315 @@ class Menu extends ConfigureScene {
     create(){
         let isGameStarted = false;
 
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
 
-        this.menuText = this.add.text(this.scale.width *.35,this.scale.height * .1, "Menu Scene", {
+        // background
+        const background = this.add.sprite(0,0, 'menuBackground');
+        background.setOrigin(0,0);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight;
+
+        // logo
+        const logo = this.add.sprite(gameWidth * .5, gameHeight * .5, 'menuLogo');
+        // logo.setScale(0.5);
+        logo.alpha = 0;
+        const divider = this.add.sprite(gameWidth * .55, gameHeight * .5, 'menuDivider');
+        divider.setScale(0.9);
+        divider.alpha = 0;
+
+        const menuText = this.add.text(this.scale.width *.7,this.scale.height * .1, "Menu", {
             fontFamily: this.fontproperties.font,
             fontSize: 80,
+            color: 'green'
         },);
+        menuText.alpha = 0;
 
-        this.startButton = this.add.text(this.scale.width *.1,this.scale.height * .3, 'Say "start" to begin the first game or click me!', {
+        const startButton = this.add.text(this.scale.width *.57,this.scale.height * .25, 'Say "start" to begin or click on levels to play!', {
             fontFamily: this.fontproperties.font,
-            fontSize: 30,
+            fontSize: 35,
+            color: 'black'
+        },);
+        startButton.alpha = 0;
+
+        const greenSerenityText = this.add.text(this.scale.width *.57,this.scale.height * .35, 'Green Serenity', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 60,
+            color: 'green'
         },);
 
+        greenSerenityText.alpha = 0;
+
+        const makeAWishText = this.add.text(this.scale.width *.57,this.scale.height * .45, 'Make A Wish!', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 60,
+            color: 'green'
+        });
+
+        makeAWishText.alpha = 0;
+
+
+        
+        const whosLoudestText = this.add.text(this.scale.width *.57,this.scale.height * .55, "Who's the Loudest?", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 60,
+            color: 'green'
+        },);
+
+        whosLoudestText.alpha = 0;
+
+        const recordanceText = this.add.text(this.scale.width *.57,this.scale.height * .65, 'Recordance', {
+            fontFamily: this.fontproperties.font,
+            fontSize: 60,
+            color: 'green'
+        },);
+
+        recordanceText.alpha = 0;
+
+        const whatsThatSoundText = this.add.text(this.scale.width *.57,this.scale.height * .75, "What's That Sound?", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 60,
+            color: 'green'
+        });
+
+        whatsThatSoundText.alpha = 0;
+
+        const rememberGongText = this.add.text(this.scale.width *.57,this.scale.height * .85, "Remember Gong?", {
+            fontFamily: this.fontproperties.font,
+            fontSize: 60,
+            color: 'green'
+        });
+
+        rememberGongText.alpha = 0;
+
+
+        this.tweens.add({
+            targets: logo,
+            alpha: 1,
+            duration: 3000,
+            ease: 'Circular.easeIn',
+            onComplete: () => {
+                this.tweens.add({
+                    targets: logo,
+                    scale: 0.9,
+                    duration: 2000,
+                    ease: 'Circular.easeIn',
+                    onComplete: () => {
+                        this.tweens.add({
+                            targets: logo,
+                            x: gameWidth * .28,
+                            duration: 2000,
+                            ease: 'Circular.easeIn',
+                            onComplete: () => {
+                                this.tweens.add({
+                                    targets: divider,
+                                    alpha: 1,
+                                    duration: 2000,
+                                    ease: 'Circular.easeIn',
+                                    onComplete: () => {
+                                        this.tweens.add({
+                                            targets: menuText,
+                                            alpha: 1,
+                                            duration: 2000,
+                                            ease: 'Circular.easeIn',
+                                            onComplete  : () => {
+                                                this.tweens.add({
+                                                    targets: startButton,
+                                                    alpha: 1,
+                                                    duration: 2000,
+                                                    ease: 'Circular.easeIn',
+                                                    onComplete: () => {
+                                                        this.tweens.add({
+                                                            targets: greenSerenityText,
+                                                            alpha: 1,
+                                                            duration: 1000,
+                                                            ease: 'Circular.easeIn',
+                                                            onComplete: () => {
+                                                                this.tweens.add({
+                                                                    targets: makeAWishText,
+                                                                    alpha: 1,
+                                                                    duration: 1000,
+                                                                    ease: 'Circular.easeIn',
+                                                                    onComplete: () => {
+                                                                        this.tweens.add({
+                                                                            targets: whosLoudestText,
+                                                                            alpha: 1,
+                                                                            duration: 1000,
+                                                                            ease: 'Circular.easeIn',
+                                                                            onComplete: () => {
+                                                                                this.tweens.add({
+                                                                                    targets: recordanceText,
+                                                                                    alpha: 1,
+                                                                                    duration: 1000,
+                                                                                    ease: 'Circular.easeIn',
+                                                                                    onComplete: () => {
+                                                                                        this.tweens.add({
+                                                                                            targets: whatsThatSoundText,
+                                                                                            alpha: 1,
+                                                                                            duration: 1000,
+                                                                                            ease: 'Circular.easeIn',
+                                                                                            onComplete: () => {
+                                                                                                this.tweens.add({
+                                                                                                    targets: rememberGongText,
+                                                                                                    alpha: 1,
+                                                                                                    duration: 1000,
+                                                                                                    ease: 'Circular.easeIn',
+                                                                                                });
+                                                                                            }
+                                                                                        });
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                        
+                    }
+                });
+            }
+        });
+
+        const greenBean = this.add.sprite(gameWidth * .5, gameHeight * .5, 'greenBean');
+        greenBean.setScale(0.5);
+        greenBean.alpha = 0;
+
+       
+
+        greenSerenityText.setInteractive();
+        makeAWishText.setInteractive();
+        whosLoudestText.setInteractive();
+        recordanceText.setInteractive();
+        whatsThatSoundText.setInteractive();
+        rememberGongText.setInteractive();
+
+        greenSerenityText.on('pointerover', () => {
+            greenBean.x = greenSerenityText.x + 500;
+            greenBean.y = greenSerenityText.y + 20;
+            greenBean.alpha = 1;
+            const blink = this.tweens.add({
+                targets: greenSerenityText,
+                alpha: 0,
+                duration: 500,
+                ease: 'Circular.easeIn',
+                yoyo: true,
+                repeat  : -1,
+            });
+            greenSerenityText.on('pointerout', () => {
+                greenBean.alpha = 0;
+                greenSerenityText.alpha = 1;
+                blink.stop();
+            });
+        });
+
+        makeAWishText.on('pointerover', () => {
+            greenBean.x = makeAWishText.x + 450;
+            greenBean.y = makeAWishText.y + 20;
+            greenBean.alpha = 1;
+            const blink = this.tweens.add({
+                targets: makeAWishText,
+                alpha: 0,
+                duration: 500,
+                ease: 'Circular.easeIn',
+                yoyo: true,
+                repeat  : -1,
+            });
+            makeAWishText.on('pointerout', () => {
+                greenBean.alpha = 0;
+                makeAWishText.alpha = 1;
+                blink.stop();
+                });
+            });
+
+        whosLoudestText.on('pointerover', () => {
+            greenBean.x = whosLoudestText.x + 620;
+            greenBean.y = whosLoudestText.y +20;
+            greenBean.alpha = 1;
+            const blink = this.tweens.add({
+                targets: whosLoudestText,
+                alpha: 0,
+                duration: 500,
+                ease: 'Circular.easeIn',
+                yoyo: true,
+                repeat  : -1,
+            });
+            whosLoudestText.on('pointerout', () => {
+                greenBean.alpha = 0;
+                whosLoudestText.alpha = 1;
+                blink.stop();
+                });
+            }
+        );
+
+        recordanceText.on('pointerover', () => {
+            greenBean.x = recordanceText.x + 400;
+            greenBean.y = recordanceText.y +20;
+            greenBean.alpha = 1;
+            const blink = this.tweens.add({
+                targets: recordanceText,
+                alpha: 0,
+                duration: 500,
+                ease: 'Circular.easeIn',
+                yoyo: true,
+                repeat  : -1,
+            });
+            recordanceText.on('pointerout', () => {
+                greenBean.alpha = 0;
+                recordanceText.alpha = 1;
+                blink.stop();
+                });
+            });
+
+        whatsThatSoundText.on('pointerover', () => {
+            greenBean.x = whatsThatSoundText.x + 620;
+            greenBean.y = whatsThatSoundText.y +20;
+            greenBean.alpha = 1;
+            const blink = this.tweens.add({
+                targets: whatsThatSoundText,
+                alpha: 0,
+                duration: 500,
+                ease: 'Circular.easeIn',
+                yoyo: true,
+                repeat  : -1,
+            });
+            whatsThatSoundText.on('pointerout', () => {
+                greenBean.alpha = 0;
+                whatsThatSoundText.alpha = 1;
+                blink.stop();
+                });
+            });
+
+        rememberGongText.on('pointerover', () => {
+            greenBean.x = rememberGongText.x + 570;
+            greenBean.y = rememberGongText.y +20;
+            greenBean.alpha = 1;
+            const blink = this.tweens.add({
+                targets: rememberGongText,
+                alpha: 0,
+                duration: 500,
+                ease: 'Circular.easeIn',
+                yoyo: true,
+                repeat  : -1,
+            });
+            rememberGongText.on('pointerout', () => {
+                greenBean.alpha = 0;
+                rememberGongText.alpha = 1;
+                blink.stop();
+                });
+            });
+
+            
+  
         let recognizer = new webkitSpeechRecognition();
         recognizer.continuous = true;
         recognizer.interimResults = true;
@@ -155,68 +458,94 @@ class Menu extends ConfigureScene {
                         console.log("recognizer stopped");
                         this.scene.start('firstLevel');
                     }
-
-                    if (transcript.includes("loudest") && !isGameStarted) {
-                        this.recognitionInProgress = true;
-                        isGameStarted = true;
-                        recognizer.stop();
-                        console.log("recognizer stopped");
-                        this.scene.start('whosLoudest');
-                    }
-
-                    if(transcript.includes('wish' && !isGameStarted)){
-                        this.recognitionInProgress = true;
-                        isGameStarted = true;
-                        recognizer.stop();
-                        console.log('recongnizer stopped')
-                        this.scene.start('makeAWish')
-                    }
-
-
                 }   
             }
         }
-        // start the game when the start button is clicked instead of saying "start" as another option
-        this.startButton.setInteractive();
-        this.startButton.on('pointerdown', () => {
+
+        recognizer.onend = () => {
+            console.log("recognizer ended");
+            console.log('restarting')
+            recognizer.start();
+        }
+
+        greenSerenityText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('firstLevel');
         });
 
-        this.theLoudestButton = this.add.text(this.scale.width *.1,this.scale.height * .5, 'Say "Loudest" to play whos Loudest Mini Game or click me!', {
-            fontFamily: this.fontproperties.font,
-            fontSize: 30,
-        },);
+        makeAWishText.on('pointerdown', () => {
+            recognizer.stop();
+            this.scene.start('makeAWish');
+        });
 
-        this.theLoudestButton.setInteractive();
-        this.theLoudestButton.on('pointerdown', () => {
+        whosLoudestText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('whosLoudest');
         });
 
-        this.recordanceButton = this.add.text(this.scale.width *.1,this.scale.height * .7, 'Say "Record" to play Recordance Mini Game or click me!', {
-            fontFamily: this.fontproperties.font,
-            fontSize: 30,
-        });
-
-        this.recordanceButton.setInteractive();
-        this.recordanceButton.on('pointerdown', () => {
+        recordanceText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('Recordance');
         });
 
-
-        this.wishButton = this.add.text(this.scale.width *.1, this.scale.height *.9, 'Say "Wish" to play Make A Wish Minigame or click me!'
-        ,{
-            fontFamily : this.fontproperties.font,
-            fontSize: 30,
-        })
-        this.wishButton.setInteractive();
-
-        this.wishButton.on('pointerdown', () => {
+        whatsThatSoundText.on('pointerdown', () => {
             recognizer.stop();
-            this.scene.start('makeAWish');
-        })
+            this.scene.start('whatsThatSound');
+        });
+
+        rememberGongText.on('pointerdown', () => {
+            recognizer.stop();
+            this.scene.start('rememberGong');
+        });
+
+
+
+
+
+
+   
+
+    //     // start the game when the start button is clicked instead of saying "start" as another option
+    //     this.startButton.setInteractive();
+    //     this.startButton.on('pointerdown', () => {
+    //         recognizer.stop();
+    //         this.scene.start('firstLevel');
+    //     });
+
+    //     this.theLoudestButton = this.add.text(this.scale.width *.1,this.scale.height * .5, 'Say "Loudest" to play whos Loudest Mini Game or click me!', {
+    //         fontFamily: this.fontproperties.font,
+    //         fontSize: 30,
+    //     },);
+
+    //     this.theLoudestButton.setInteractive();
+    //     this.theLoudestButton.on('pointerdown', () => {
+    //         recognizer.stop();
+    //         this.scene.start('whosLoudest');
+    //     });
+
+    //     this.recordanceButton = this.add.text(this.scale.width *.1,this.scale.height * .7, 'Say "Record" to play Recordance Mini Game or click me!', {
+    //         fontFamily: this.fontproperties.font,
+    //         fontSize: 30,
+    //     });
+
+    //     this.recordanceButton.setInteractive();
+    //     this.recordanceButton.on('pointerdown', () => {
+    //         recognizer.stop();
+    //         this.scene.start('Recordance');
+    //     });
+
+
+    //     this.wishButton = this.add.text(this.scale.width *.1, this.scale.height *.9, 'Say "Wish" to play Make A Wish Minigame or click me!'
+    //     ,{
+    //         fontFamily : this.fontproperties.font,
+    //         fontSize: 30,
+    //     })
+    //     this.wishButton.setInteractive();
+
+    //     this.wishButton.on('pointerdown', () => {
+    //         recognizer.stop();
+    //         this.scene.start('makeAWish');
+    //     })
     }
 
 }
@@ -364,9 +693,10 @@ class makeAWish extends ConfigureScene {
         background.displayWidth = gameWidth;
         background.displayHeight = gameHeight;
 
-         const makeWishText = this.add.text(gameWidth * .35,gameHeight * .2, "Make A Wish!", {
+         const makeWishText = this.add.text(gameWidth * .35,gameHeight * .3, "Make A Wish!", {
             fontFamily: this.fontproperties.font,
             fontSize: 30,
+            color: 'black'
         },);
         makeWishText.alpha = 0;
         makeWishText.setDepth(1);
@@ -375,25 +705,25 @@ class makeAWish extends ConfigureScene {
 
 
         // sun
-        const sun = this.add.sprite(gameWidth * .5, gameHeight * .5, 'sun');
+        const sun = this.add.sprite(gameWidth * .5, gameHeight * .55, 'sun');
         // sun.setOrigin(0.5);
-        sun.setScale(0.5);
+        sun.setScale(.7);
 
         // sun shade
-        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .52, 'sunShade');
-        sunShade.setScale(0.5);
+        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .6, 'sunShade');
+        sunShade.setScale(.6);
 
         // water shade
-        const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .5, 'waterShade');
-        waterShade.setScale(0.55);
+        const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'waterShade');
+        waterShade.setScale(0.9);
 
         // cliff
-        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .32, 'cliff');
-        cliff.setScale(0.7);
+        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .47, 'cliff');
+        cliff.setScale(0.9);
 
         // cloud
         const cloud = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cloud');
-        cloud.setScale(0.5);
+        cloud.setScale(0.9);
 
         
         this.inventoryUI = new InventoryUI(this);
@@ -406,7 +736,7 @@ class makeAWish extends ConfigureScene {
         const paperItem = new InventoryItem('Paper','A piece of paper');
 
 
-        paperItem.createItemText(this, gameWidth *.35, gameHeight * .9);
+        paperItem.createItemText(this, gameWidth *.37, gameHeight * .93);
 
         paperItem.text.setInteractive();
         paperItem.text.on('pointerdown', () => {
@@ -430,39 +760,39 @@ class makeAWish extends ConfigureScene {
         let codeBlockExecuted = false;
 
         
-        const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper1');
-        paper1.setScale(0.5);
+        const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper1');
+        paper1.setScale(0.7);
         paper1.alpha = 0;
 
-        const paper2 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper2');
-        paper2.setScale(0.5);
+        const paper2 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper2');
+        paper2.setScale(0.7);
         paper2.alpha = 0;
 
-        const paper3 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper3');
-        paper3.setScale(0.5);
+        const paper3 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper3');
+        paper3.setScale(0.7);
         paper3.alpha = 0;
 
-        const paper4 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper4');
-        paper4.setScale(0.5);
+        const paper4 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper4');
+        paper4.setScale(0.7);
         paper4.alpha = 0;
 
-        const paper5 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'paper5');
-        paper5.setScale(0.5);
+        const paper5 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper5');
+        paper5.setScale(0.7);
         paper5.alpha = 0;
 
-        const airplane1 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'airplane1');
-        airplane1.setScale(0.5);
+        const airplane1 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'airplane1');
+        airplane1.setScale(0.7);
         airplane1.alpha = 0;
 
         const airplane2 = this.add.sprite(gameWidth * .5, gameHeight * .6, 'airplane2');
         airplane2.setScale(0.5);
         airplane2.alpha = 0;
 
-        const airplane3 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'airplane3');
+        const airplane3 = this.add.sprite(gameWidth * .5, gameHeight * .6, 'airplane3');
         airplane3.setScale(0.5);
         airplane3.alpha = 0;
 
-        const airplane4 = this.add.sprite(gameWidth * .5, gameHeight * .5, 'airplane4');
+        const airplane4 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'airplane4');
         airplane4.setScale(0.5);
         airplane4.alpha = 0;
 
@@ -583,7 +913,7 @@ class makeAWish extends ConfigureScene {
                                 this.inventoryUI.destroy();
                                 this.cameras.main.setBackgroundColor('#ffffff'); // 'ffffff' is the hex color for white\
 
-                                const wishText = this.add.text(gameWidth * .5, gameHeight * .5, 'Your wish has been granted!', {
+                                const wishText = this.add.text(gameWidth * .3, gameHeight * .5, 'Your wish has been granted!', {
                                     fontFamily: this.fontproperties.font,
                                     fontSize: 50,
                                     color : 'black'
@@ -650,7 +980,7 @@ class whosLoudest extends ConfigureScene{
         background.displayHeight = gameHeight;
 
 
-        const loudestText = this.add.text(gameWidth *.1,gameHeight / 2 *.1, "Who's the Loudest?", {
+        const loudestText = this.add.text(gameWidth *.3,gameHeight / 2 *.1, "Who's the Loudest?", {
             fontFamily: this.fontproperties.font,
             fontSize: 80,
         },);
@@ -677,8 +1007,8 @@ class whosLoudest extends ConfigureScene{
             ease: 'Power2',
             onComplete: () => {
                 console.log('tween completed');
-                const slug = this.add.sprite(gameWidth * .35, gameHeight *.7 , 'slug');
-                slug.setScale(0.5);
+                const slug = this.add.sprite(gameWidth * .3, gameHeight *.7 , 'slug');
+                slug.setScale(0.7);
 
                 const butterfly = this.add.sprite(gameWidth * .375, gameHeight *.55 , 'butterfly');
                 butterfly.setScale(0.4);
@@ -691,8 +1021,8 @@ class whosLoudest extends ConfigureScene{
 
                 this.tweens.add({
                     targets: slug,
-                    scaleX: .7,
-                    scaleY: .7,
+                    scaleX: .8,
+                    scaleY: .8,
                     duration: 2000,
                     ease: 'Linear',
                     yoyo: true,
@@ -767,7 +1097,7 @@ class whosLoudest extends ConfigureScene{
                                                     onComplete: () => {
                                                         const loudText = this.add.text(centerX, centerY *.4, 'Who made the loudest sound?', {
                                                             fontFamily: this.fontproperties.font,
-                                                            fontSize: 60,
+                                                            fontSize: 80,
                                                         });
                                                         loudText.setOrigin(0.5);
                                                         loudText.setAlpha(0);
@@ -801,7 +1131,7 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 50,
+                                                                fontSize: 80,
                                                             });
 
                                                             this.time.addEvent({
@@ -837,7 +1167,7 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Congrats you found the loudest one!\nMoving onwards!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 50,
+                                                                fontSize: 80,
                                                             });
 
                                                             this.time.addEvent({
@@ -868,7 +1198,7 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 50,
+                                                                fontSize: 80,
                                                             });
 
                                                             this.time.addEvent({
@@ -899,7 +1229,7 @@ class whosLoudest extends ConfigureScene{
 
                                                             this.add.text(centerX * .1, centerY * .1, 'Looks like you did not find the loudest!\nMaybe Next Time!', {
                                                                 fontFamily: this.fontproperties.font,
-                                                                fontSize: 50,
+                                                                fontSize: 80,
                                                             });
 
                                                             this.time.addEvent({
@@ -1062,7 +1392,7 @@ class Recordance extends ConfigureScene{
         startText.setScale(0.5);
 
         const channelButton = this.add.sprite(gameWidth * 0.51, gameHeight * 0.55, 'channelOne');
-        channelButton.setScale(0.5);
+        channelButton.setScale(0.7);
 
         console.log('Initial position of channelButton:');
         console.log('X:', channelButton.x);
@@ -1094,8 +1424,8 @@ class Recordance extends ConfigureScene{
                         const scrollPrompt = this.add.sprite(gameWidth /2 , gameHeight * .5, 'scrollText');
                         scrollPrompt.setScale(0.5);
 
-                        const channelOne = this.add.sprite(gameWidth *.51, gameHeight *.55, 'channelOne');
-                        channelOne.setScale(0.5);
+                        const channelOne = this.add.sprite(gameWidth * 0.51, gameHeight * 0.55, 'channelOne');
+                        channelOne.setScale(0.7);
                         
                         console.log('Initial position of channelOne:');
                         console.log('X:', channelOne.x);
