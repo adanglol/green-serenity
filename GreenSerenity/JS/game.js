@@ -148,13 +148,8 @@ class Menu extends ConfigureScene {
         divider.setScale(0.9);
         divider.alpha = 0;
 
-        // const menuText = this.add.text(this.scale.width *.7,this.scale.height * .1, "Menu", {
-        //     fontFamily: this.fontproperties.font,
-        //     fontSize: 80,
-        //     color: 'green'
-        // },);
 
-        const menuText = this.add.sprite(gameWidth * .7, gameHeight * .1, 'menu');
+        const menuText = this.add.sprite(gameWidth * .8, gameHeight * .1, 'menu');
         menuText.setScale(0.2);
 
         menuText.alpha = 0;
@@ -874,6 +869,12 @@ class makeAWish extends ConfigureScene {
                        
                     }
 
+                    recognizer.onend = () => {
+                        console.log("recognizer ended");
+                        console.log('restarting')
+                        recognizer.start();
+                    }
+
 
                     if (makingWish){
                         this.time.addEvent({
@@ -1442,6 +1443,12 @@ class Recordance extends ConfigureScene{
                                     break;
                             }
                         });
+
+                        recognizer.onend = () => {
+                            console.log("recognizer ended");
+                            console.log('restarting')
+                            recognizer.start();
+                        }
                         
 
                        
