@@ -1481,9 +1481,12 @@ class whatSound extends ConfigureScene{
         const BirdSound = this.sound.add('bird_mp3');
         const CricketSound = this.sound.add('cricket_mp3');
         const RainSound = this.sound.add('rain_mp3');
-        
-        // put first audio here along
 
+        // Bird = this.add.sprite('bird');
+        // Cricket = this.add.sprite('bug');
+        // Rain = this.add.sprite('rain');
+
+        // put first audio here along
         BirdSound.play();
 
         let recognizer = new webkitSpeechRecognition();
@@ -1494,6 +1497,12 @@ class whatSound extends ConfigureScene{
         console.log("recognizer started");
 
         recognizer.onresult = (event) => {
+            recognizer.onend = () => {
+                console.log("recognizer ended");
+                console.log('restarting')
+                recognizer.start();
+            }
+
             if (!this,recognizerInprogress) {
                 for (let i = event.resultIndex; i < event.results.length; i++){
                     const transcript = event.results[i][0].transcript.toLowerCase();
@@ -1501,12 +1510,16 @@ class whatSound extends ConfigureScene{
 
                     if (transcript.includes ("bird")){
                         BirdSound.stop();
-                        CricketSound.play();
                     } 
+
+                    CricketSound.play();    
+
                     if (transcript.includes ("cricket")){
                         CricketSound.stop();
-                        RainSound.Start();
                     }
+
+                    RainSound.play();   
+
                     if (transcript.includes ("rain")){
                         RainSound.stop();
                         this.add.text(this.scale.width *.8, this.scale.height * .5,
@@ -1514,7 +1527,7 @@ class whatSound extends ConfigureScene{
                         );
                     }
                     if (transcript.included ("next")){
-
+                        this.scene.start('rememberGong');
                     }
                 }
             }
