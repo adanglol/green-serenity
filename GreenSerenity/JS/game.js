@@ -42,6 +42,8 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('menuLogo', '../ASSETS/Menu/Logo.png');
         this.load.image('menuDivider', '../ASSETS/Menu/Divider.png');
         this.load.image('greenBean', '../ASSETS/Menu/GBLOGO 1.png');
+        this.load.image('menu', '../ASSETS/Menu/Menu.png');
+
         // Who is the Loudest Assets
         this.load.image('whosLoudestBackground', '../ASSETS/whosLoudest.png');
         this.load.image('fox', '../ASSETS/fox.png');
@@ -146,16 +148,15 @@ class Menu extends ConfigureScene {
         divider.setScale(0.9);
         divider.alpha = 0;
 
-        const menuText = this.add.text(this.scale.width *.7,this.scale.height * .1, "Menu", {
-            fontFamily: this.fontproperties.font,
-            fontSize: 80,
-            color: 'green'
-        },);
+
+        const menuText = this.add.sprite(gameWidth * .8, gameHeight * .1, 'menu');
+        menuText.setScale(0.2);
+
         menuText.alpha = 0;
 
         const startButton = this.add.text(this.scale.width *.57,this.scale.height * .25, 'Say "start" to begin or click on levels to play!', {
             fontFamily: this.fontproperties.font,
-            fontSize: 35,
+            fontSize: 30,
             color: 'black'
         },);
         startButton.alpha = 0;
@@ -868,6 +869,12 @@ class makeAWish extends ConfigureScene {
                        
                     }
 
+                    recognizer.onend = () => {
+                        console.log("recognizer ended");
+                        console.log('restarting')
+                        recognizer.start();
+                    }
+
 
                     if (makingWish){
                         this.time.addEvent({
@@ -1436,6 +1443,12 @@ class Recordance extends ConfigureScene{
                                     break;
                             }
                         });
+
+                        recognizer.onend = () => {
+                            console.log("recognizer ended");
+                            console.log('restarting')
+                            recognizer.start();
+                        }
                         
 
                        
