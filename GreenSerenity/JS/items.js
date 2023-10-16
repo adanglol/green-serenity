@@ -8,11 +8,13 @@ class InventoryItem {
 
     }
 
-    createItemText(scene, x, y) {
+    createItemText(scene, x, y,color,stroke,thickness) {
         this.text = scene.add.text(x, y, this.name, {
             fontSize: '40px',
-            color : 'black',
+            color : color,
             fontFamily: this.fontproperties.font,
+            stroke :stroke,
+            strokeThickness : thickness,
         });
     }
 }

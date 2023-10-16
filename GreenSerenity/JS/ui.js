@@ -2,7 +2,7 @@
 
 // start with inventory UI
 class InventoryUI {
-    constructor(scene){
+    constructor(scene,texture){
         // Store a reference to the scene
         this.scene = scene;
         // Create a reference to the inventory
@@ -39,17 +39,17 @@ class InventoryUI {
         this.inventoryUIContainer.add(inventoryBackground);
 
         //  Create inventory button to toggle inventory UI
-        this.inventoryButton = this.scene.add.text(0,0, '👜', {
-            fontFamily: this.fontproperties.font,
-            fontSize: 50,
-        }).setInteractive();
+        this.inventoryButton = this.scene.add.sprite(0,0,texture);
+        this.inventoryButton.setScale(.2)
+        this.inventoryButton.setInteractive();
+        
 
           // Calculate the X position to center the button horizontally
         //   (inventoryWidth - this.inventoryButton.width) / 2;
           const buttonX = sceneWidth * .9;
           // Set the Y position to place the button at the top of the container
         //   sceneHeight *.75
-          const buttonY = sceneHeight * .05;
+          const buttonY = sceneHeight * .1;
   
           // Set the position of the button
           this.inventoryButton.setPosition(buttonX, buttonY);
@@ -60,16 +60,17 @@ class InventoryUI {
 
 
     }
-    collectItem(item){
+    collectItem(item,color,stroke,thickness){
         this.inventory.push(item);
         this.itemcount++;
-        this.updateInventory();
+        this.updateInventory(color,stroke,thickness);
 
     }
     toggleInventory(){
         // this.inventoryUIContainer.visible = !this.inventoryUIContainer.visible;
         //  If its invisible fade it in
         if (!this.inventoryUIContainer.visible){
+
             // if currently invisble fade it in
             this.inventoryUIContainer.alpha = 0;
             this.scene.tweens.add({
@@ -79,6 +80,7 @@ class InventoryUI {
                 ease : 'Power2',
                 onStart : () => {
                     this.inventoryUIContainer.visible = true;
+                    this.inventoryButton.setTexture('openInventoryButton')
                 },
             })
         } else {
@@ -90,12 +92,13 @@ class InventoryUI {
                 ease : 'Power2',
                 onComplete : () => {
                     this.inventoryUIContainer.visible = false; // set visible to false
+                    this.inventoryButton.setTexture('closeInventoryButton');
                 }
             });
         }
     }
 
-    updateInventory(){
+    updateInventory(color,stroke,thickness){
          // Get the dimensions of the background rectangle
          const background = this.inventoryUIContainer.getAt(0);
          const backgroundWidth = background.displayWidth;
@@ -112,7 +115,7 @@ class InventoryUI {
         const horizontalSpacing = (itemWidth - 18) / 2; // Adjust the value as needed
 
         // Calculate the font size as a percentage of the item's height
-        const fontSizePercentage = 20; // Adjust the percentage as needed
+        const fontSizePercentage = 30; // Adjust the percentage as needed
         const fontSize = `${(itemHeight * fontSizePercentage) / 100}px`;
 
          for (let i = 0; i < this.inventory.length ; i++){
@@ -132,8 +135,10 @@ class InventoryUI {
                    item.name,
                  {
                  fontSize: fontSize,
-                 color : 'black',
+                 color : color,
                  fontFamily: this.fontproperties.font,
+                 stroke:stroke,
+                 strokeThickness: thickness,
                  }
              );
              this.inventoryUIContainer.add(itemText);
