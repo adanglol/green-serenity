@@ -126,7 +126,7 @@ class ConfigureScene extends Phaser.Scene {
                 families: ['Modak']
             },
             active: () => {
-                game.scene.start('Menu');
+                game.scene.start('makeAWish');
             },
         });
 
@@ -479,11 +479,11 @@ class Menu extends ConfigureScene {
             }
         }
 
-        recognizer.onend = () => {
-            console.log("recognizer ended");
-            console.log('restarting')
-            recognizer.start();
-        }
+        // recognizer.onend = () => {
+        //     console.log("recognizer ended");
+        //     console.log('restarting')
+        //     recognizer.start();
+        // }
 
         greenSerenityText.on('pointerdown', () => {
             recognizer.stop();
@@ -587,7 +587,7 @@ class firstLevel extends ConfigureScene {
 
         // sun
         const sun = this.add.sprite(0,0,'sun')
-        sun.setOrigin(-.2,-.1)
+        sun.setOrigin(-.5,-.3)
         sun.displayWidth = gameWidth;
         sun.displayHeight = gameHeight;
         sun.setScale(.4)
@@ -628,11 +628,11 @@ class firstLevel extends ConfigureScene {
         
         // sun item
         const sunItem = new InventoryItem('Sun','Power of the sun in palm of my fingertips')
-        sunItem.createItemText(this,gameWidth *.4,gameHeight*.3,'white','black',4)
+        sunItem.createItemText(this,gameWidth *.6,gameHeight*.45,'white','black',4)
 
         // water item
         const waterItem = new InventoryItem('Water','Gotta stay cool')
-        waterItem.createItemText(this,gameWidth *.25,gameHeight*.4,'white','black',4)
+        waterItem.createItemText(this,gameWidth *.2,gameHeight*.45,'white','black',4)
 
         // flower item
         const flowerItem = new InventoryItem('Flowers','Roses are red violets are blue')
@@ -711,6 +711,7 @@ class firstLevel extends ConfigureScene {
                         isInventoryOpen = false;
                     }
                     if (transcript.includes("son" || "sun") && sunCollected ){
+                        console.log('son has said')
                         sun.alpha = 1;
                         sunOut = true;
                     }
@@ -744,7 +745,7 @@ class firstLevel extends ConfigureScene {
                         full.alpha = 1
                         serenText.setText("Forest has been thriving onwards!")
                         this.time.addEvent({
-                            delay : 2000,
+                            delay : 5000,
                             callback : ()=>{
                                 this.scene.start('makeAWish')
                             }
@@ -760,12 +761,7 @@ class firstLevel extends ConfigureScene {
             }
         }
 
-        recognizer.onend = () => {
-            console.log("recognizer ended");
-            console.log('restarting')
-            recognizer.start();
-        }
-
+        
         
 
 
@@ -796,6 +792,7 @@ class makeAWish extends ConfigureScene {
 
         background.displayWidth = gameWidth;
         background.displayHeight = gameHeight;
+        // background.alpha = 0;
 
          const makeWishText = this.add.text(gameWidth * .35,gameHeight * .3, "Make A Wish!", {
             fontFamily: this.fontproperties.font,
@@ -809,13 +806,13 @@ class makeAWish extends ConfigureScene {
 
 
         // sun
-        const sun = this.add.sprite(gameWidth * .5, gameHeight * .55, 'sun');
+        const sun = this.add.sprite(gameWidth * .5, gameHeight * .825, 'sun');
         // sun.setOrigin(0.5);
-        sun.setScale(.7);
+        sun.setScale(.6);
 
         // sun shade
-        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .6, 'sunShade');
-        sunShade.setScale(.6);
+        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .65, 'sunShade');
+        sunShade.setScale(.4);
 
         // water shade
         const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'waterShade');
