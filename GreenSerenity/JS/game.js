@@ -1649,6 +1649,7 @@ class Recordance extends ConfigureScene{
 class whatSound extends ConfigureScene{
     constructor(){
         super('whatSound');
+        this.recognizerInProgress = false;
     }
     create(){
         this.add.text(20,20, "Level6 Scene", {
@@ -1668,13 +1669,7 @@ class whatSound extends ConfigureScene{
         const CricketSound = this.sound.add('cricket_mp3');
         const RainSound = this.sound.add('rain_mp3');
 
-        // Bird = this.add.sprite('bird');
-        // Cricket = this.add.sprite('bug');
-        // Rain = this.add.sprite('rain');
-
-       // let currentSound = null
-
-        // put first audio here along
+        
         BirdSound.play({loop: true});
 
         let recognizer = new webkitSpeechRecognition();
@@ -1685,15 +1680,11 @@ class whatSound extends ConfigureScene{
         console.log("recognizer started");
 
         recognizer.onresult = (event) => {
-            // recognizer.onend = () => {
-            //     console.log("recognizer ended");
-            //     console.log('restarting')
-            //     recognizer.start();
-            // }
+            
 
             if (!this.recognizerInProgress) {
                 for (let i = event.resultIndex; i < event.results.length; i++){
-                    const transcript = [event.results.length - 1][0].transcript.toLowerCase();
+                    const transcript = event.results[i][0].transcript.toLowerCase();
                     console.log(transcript); 
 
                     if (transcript.includes('bird')) {
@@ -1706,15 +1697,10 @@ class whatSound extends ConfigureScene{
                         RainSound.play({loop: true});
                     }  
 
-                    if (transcript.includes ("rain")){
+                    if (transcript.includes ('rain')){
                         if(RainSound) RainSound.stop();
-                        this.add.text(this.scale.width *.8, this.scale.height * .5,
-                         "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
-                        );
                     }
-                    if (transcript.included ("next")){
-                        this.scene.start('rememberGong');
-                    }
+                   
                 }
             }
         }
