@@ -44,6 +44,22 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('greenBean', '../ASSETS/Menu/GBLOGO 1.png');
         this.load.image('menu', '../ASSETS/Menu/Menu.png');
 
+        // Level 1 Assets
+        this.load.image('greenBg', '../ASSETS/greenSerenity/BG.png');
+        this.load.image('greenDirt', '../ASSETS/greenSerenity/Dirt.png');
+        this.load.image('greenDirt1', '../ASSETS/greenSerenity/Dirt 1.png');
+        this.load.image('water', '../ASSETS/greenSerenity/Water.png');
+        this.load.image('flower', '../ASSETS/greenSerenity/Flower.png');
+        this.load.image('seed', '../ASSETS/greenSerenity/Seed.png');
+        this.load.image('sapling', '../ASSETS/greenSerenity/Sapling.png');
+        this.load.image('sun', '../ASSETS/greenSerenity/Sun.png');
+        this.load.image('halfTree', '../ASSETS/greenSerenity/Half.png');
+        this.load.image('grownTrees', '../ASSETS/greenSerenity/Full.png');
+
+        // Inventory UI
+        this.load.image('closeInventoryButton', '../ASSETS/inventory/Button Inventory close.png');
+        this.load.image('openInventoryButton', '../ASSETS/inventory/Button Inventory.png');
+
         // Who is the Loudest Assets
         this.load.image('whosLoudestBackground', '../ASSETS/whosLoudest.png');
         this.load.image('fox', '../ASSETS/fox.png');
@@ -110,7 +126,7 @@ class ConfigureScene extends Phaser.Scene {
                 families: ['Modak']
             },
             active: () => {
-                game.scene.start('Menu');
+                game.scene.start('makeAWish');
             },
         });
 
@@ -463,11 +479,11 @@ class Menu extends ConfigureScene {
             }
         }
 
-        recognizer.onend = () => {
-            console.log("recognizer ended");
-            console.log('restarting')
-            recognizer.start();
-        }
+        // recognizer.onend = () => {
+        //     console.log("recognizer ended");
+        //     console.log('restarting')
+        //     recognizer.start();
+        // }
 
         greenSerenityText.on('pointerdown', () => {
             recognizer.stop();
@@ -514,53 +530,159 @@ class firstLevel extends ConfigureScene {
     create(){
         console.log("firstLevel scene created and called")
         // inventory UI
-        this.inventoryUI = new InventoryUI(this);
 
-        this.add.text(20,20, "Level1 Scene", {
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+
+    
+        // background
+        const background = this.add.sprite(0,0, 'greenBg');
+        background.setOrigin(0,0);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight;
+
+
+         // background trees
+         const dirtTree = this.add.sprite(0,0, 'greenDirt1');
+         dirtTree.setOrigin(0,0);
+ 
+         dirtTree.displayWidth = gameWidth;
+         dirtTree.displayHeight = gameHeight;
+
+        // water
+        const water = this.add.sprite(0,0, 'water');
+        water.setOrigin(0,0);
+        water.displayWidth = gameWidth;
+        water.displayHeight = gameHeight;
+        water.alpha = 0
+
+        // dirt that is green
+        const Dirt = this.add.sprite(0,0, 'greenDirt');
+        Dirt.setOrigin(0,0);
+        Dirt.displayWidth = gameWidth;
+        Dirt.displayHeight = gameHeight;
+
+
+        // flower
+        const flower = this.add.sprite(0,0,'flower');
+        flower.setOrigin(0,0)
+        flower.displayWidth = gameWidth;
+        flower.displayHeight = gameHeight;
+        flower.alpha = 0
+
+        // seed 
+        const seed = this.add.sprite(0,0,'seed')
+        seed.setOrigin(0,0)
+        seed.displayWidth = gameWidth;
+        seed.displayHeight = gameHeight;
+        seed.alpha = 0
+
+        // sapling
+        const sapling = this.add.sprite(0,0,'sapling')
+        sapling.setOrigin(0,0)
+        sapling.displayWidth = gameWidth;
+        sapling.displayHeight = gameHeight;
+        sapling.alpha = 0
+
+        // sun
+        const sun = this.add.sprite(0,0,'sun')
+        sun.setOrigin(-.2,-.1)
+        sun.displayWidth = gameWidth;
+        sun.displayHeight = gameHeight;
+        sun.setScale(.4)
+        sun.alpha = 0
+
+
+        // half
+        const half = this.add.sprite(0,0,'halfTree')
+        half.setOrigin(0,0)
+        half.displayWidth = gameWidth;
+        half.displayHeight = gameHeight;
+        half.alpha = 0
+
+
+        // // full
+
+        const full = this.add.sprite(0,0,'grownTrees')
+        full.setOrigin(0,0)
+        full.displayWidth = gameWidth;
+        full.displayHeight = gameHeight;
+        full.alpha = 0
+
+
+
+        this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
+
+        const serenText = this.add.text(20,20, "Green Serenity", {
             fontFamily: this.fontproperties.font,
-            fontSize: 30,
+            fontSize: 50,
+            stroke : 'black',
+            strokeThickness : 4,
         },);
 
-        // Create some items to collect
-        const keyItem = new InventoryItem('Key','A shiny key');
-        keyItem.createItemText(this, 20, 80);
-
-        keyItem.text.setInteractive();
-        keyItem.text.on('pointerdown', () => {
-            console.log('key item clicked')
-            this.inventoryUI.collectItem(keyItem);
-            keyItem.text.destroy();
-        });
+        let sunCollected = false;
+        let waterCollected = false;
+        let flowerCollected = false;
+        let seedCollected = false;
+        let sunOut = false;
+        let waterOut = false;
+        let seedPlanted = false;
+        let seedGrowth = false;
         
-        const coinItem = new InventoryItem('Coin','A shiny coin');
-        coinItem.createItemText(this, 20, 120);
+        // sun item
+        const sunItem = new InventoryItem('Sun','Power of the sun in palm of my fingertips')
+        sunItem.createItemText(this,gameWidth *.6,gameHeight*.45,'white','black',4)
 
-        coinItem.text.setInteractive();
-        coinItem.text.on('pointerdown', () => {
-            console.log('coin item clicked')
-            this.inventoryUI.collectItem(coinItem);
-            coinItem.text.destroy();
+        // water item
+        const waterItem = new InventoryItem('Water','Gotta stay cool')
+        waterItem.createItemText(this,gameWidth *.2,gameHeight*.45,'white','black',4)
+
+        // flower item
+        const flowerItem = new InventoryItem('Flowers','Roses are red violets are blue')
+        flowerItem.createItemText(this,gameWidth *.1,gameHeight*.8,'white','black',4)
+
+        // seed item
+        const seedItem = new InventoryItem('Seeds','Blooming with potential')
+        seedItem.createItemText(this,gameWidth *.2,gameHeight*.6,'white','black',4)
+
+        sunItem.text.setInteractive();
+        waterItem.text.setInteractive();
+        flowerItem.text.setInteractive();
+        seedItem.text.setInteractive();
+
+        sunItem.text.on('pointerdown', () => {
+            console.log('sun item clicked')
+            this.inventoryUI.collectItem(sunItem,'white','black',4);
+            sunItem.text.destroy();
+            sunCollected = true;
+            console.log(sunCollected)
         });
 
-        const swordItem = new InventoryItem('Sword','A shiny sword');
-        swordItem.createItemText(this, 20, 160);
-
-        swordItem.text.setInteractive();
-        swordItem.text.on('pointerdown', () => {
-            console.log('sword item clicked')
-            this.inventoryUI.collectItem(swordItem);
-            swordItem.text.destroy();
+        waterItem.text.on('pointerdown', () => {
+            console.log('water item clicked')
+            this.inventoryUI.collectItem(waterItem,'white','black',4);
+            waterItem.text.destroy();
+            waterCollected = true;
+            console.log(waterCollected)
         });
-       
-        const shieldItem = new InventoryItem('Shield','A shiny shield');
-        shieldItem.createItemText(this, 20, 200);
 
-        shieldItem.text.setInteractive();
-        shieldItem.text.on('pointerdown', () => {
-            console.log('shield item clicked')
-            this.inventoryUI.collectItem(shieldItem);
-            shieldItem.text.destroy();
+        flowerItem.text.on('pointerdown', () => {
+            console.log('flower item clicked')
+            this.inventoryUI.collectItem(flowerItem,'white','black',4);
+            flowerItem.text.destroy();
+            flowerCollected = true;
+            console.log(flowerCollected)
         });
+
+        seedItem.text.on('pointerdown', () => {
+            console.log('seed item clicked')
+            this.inventoryUI.collectItem(seedItem,'white','black',4);
+            seedItem.text.destroy();
+            seedCollected = true;
+            console.log(seedCollected)
+        });
+
         
         let isInventoryOpen = false;
         
@@ -590,12 +712,58 @@ class firstLevel extends ConfigureScene {
                         this.inventoryUI.toggleInventory();
                         isInventoryOpen = false;
                     }
+                    if (transcript.includes("son" || "sun") && sunCollected ){
+                        console.log('son has said')
+                        sun.alpha = 1;
+                        sunOut = true;
+                    }
+                    if (transcript.includes("water") && waterCollected){
+                        water.alpha = 1;
+                        waterCollected = true;
+                        waterOut = true;
+                    }
+                    if (transcript.includes("flowers") && flowerCollected){
+                        flower.alpha = 1;
+                    }
+
+                    if (transcript.includes("plant") && seedCollected && sunOut && waterOut){
+                        seed.alpha = 1;
+                        seedPlanted = true
+                    }
+                    if (transcript.includes("grow") && seedPlanted && waterOut && sunOut){
+                        seed.alpha = 0;
+                        sapling.alpha = 1;
+                        seedGrowth = true
+                    }
+                    if (transcript.includes("bloom") && seedGrowth){
+                        sapling.alpha = 0;
+                        half.alpha = 1;
+                        this.time.addEvent({
+                            delay : 1000,
+                            callback : () => {
+                                half.alpha = 0;
+                            },
+                        })
+                        full.alpha = 1
+                        serenText.setText("Forest has been thriving onwards!")
+                        this.time.addEvent({
+                            delay : 5000,
+                            callback : ()=>{
+                                this.scene.start('makeAWish')
+                            }
+                        })
+
+                        
+                        
+                    }
+                    
 
                    
                 }   
             }
         }
 
+        
         
 
 
@@ -624,8 +792,11 @@ class makeAWish extends ConfigureScene {
         const background = this.add.sprite(0,0, 'makeAWishBackground');
         background.setOrigin(0,0);
 
+        // background.alpha = 0;
+
         background.displayWidth = gameWidth;
         background.displayHeight = gameHeight;
+        // background.alpha = 0;
 
          const makeWishText = this.add.text(gameWidth * .35,gameHeight * .3, "Make A Wish!", {
             fontFamily: this.fontproperties.font,
@@ -639,28 +810,30 @@ class makeAWish extends ConfigureScene {
 
 
         // sun
-        const sun = this.add.sprite(gameWidth * .5, gameHeight * .55, 'sun');
+        const sun = this.add.sprite(gameWidth * .5, gameHeight * .8, 'sun');
         // sun.setOrigin(0.5);
-        sun.setScale(.7);
+        sun.setScale(.5);
 
         // sun shade
-        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .6, 'sunShade');
-        sunShade.setScale(.6);
+        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'sunShade');
+        sunShade.setScale(.4);
 
         // water shade
-        const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'waterShade');
-        waterShade.setScale(0.9);
+        const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .5, 'waterShade');
+        waterShade.setScale(0.6);
 
         // cliff
-        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .47, 'cliff');
+        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .25, 'cliff');
         cliff.setScale(0.9);
 
         // cloud
         const cloud = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cloud');
-        cloud.setScale(0.9);
+        cloud.setScale(.6);
 
         
-        this.inventoryUI = new InventoryUI(this);
+        this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
+        // this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
+
 
 
 
@@ -670,7 +843,7 @@ class makeAWish extends ConfigureScene {
         const paperItem = new InventoryItem('Paper','A piece of paper');
 
 
-        paperItem.createItemText(this, gameWidth *.37, gameHeight * .93);
+        paperItem.createItemText(this, gameWidth *.37, gameHeight * .93, 'black', 'white', 4);
 
         paperItem.text.setInteractive();
         paperItem.text.on('pointerdown', () => {
@@ -695,19 +868,19 @@ class makeAWish extends ConfigureScene {
 
         
         const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper1');
-        paper1.setScale(0.7);
+        paper1.setScale(0.5);
         paper1.alpha = 0;
 
         const paper2 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper2');
-        paper2.setScale(0.7);
+        paper2.setScale(0.5);
         paper2.alpha = 0;
 
         const paper3 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper3');
-        paper3.setScale(0.7);
+        paper3.setScale(0.5);
         paper3.alpha = 0;
 
         const paper4 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper4');
-        paper4.setScale(0.7);
+        paper4.setScale(0.5);
         paper4.alpha = 0;
 
         const paper5 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper5');
