@@ -44,6 +44,22 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('greenBean', '../ASSETS/Menu/GBLOGO 1.png');
         this.load.image('menu', '../ASSETS/Menu/Menu.png');
 
+        // Level 1 Assets
+        this.load.image('greenBg', '../ASSETS/greenSerenity/BG.png');
+        this.load.image('greenDirt', '../ASSETS/greenSerenity/Dirt.png');
+        this.load.image('greenDirt1', '../ASSETS/greenSerenity/Dirt 1.png');
+        this.load.image('water', '../ASSETS/greenSerenity/Water.png');
+        this.load.image('flower', '../ASSETS/greenSerenity/Flower.png');
+        this.load.image('seed', '../ASSETS/greenSerenity/Seed.png');
+        this.load.image('sapling', '../ASSETS/greenSerenity/Sapling.png');
+        this.load.image('sun', '../ASSETS/greenSerenity/Sun.png');
+        this.load.image('halfTree', '../ASSETS/greenSerenity/Half.png');
+        this.load.image('grownTrees', '../ASSETS/greenSerenity/Full.png');
+
+        // Inventory UI
+        this.load.image('closeInventoryButton', '../ASSETS/inventory/Button Inventory close.png');
+        this.load.image('openInventoryButton', '../ASSETS/inventory/Button Inventory.png');
+
         // Who is the Loudest Assets
         this.load.image('whosLoudestBackground', '../ASSETS/whosLoudest.png');
         this.load.image('fox', '../ASSETS/fox.png');
@@ -571,7 +587,7 @@ class firstLevel extends ConfigureScene {
 
         // sun
         const sun = this.add.sprite(0,0,'sun')
-        sun.setOrigin(-.5,-.3)
+        sun.setOrigin(-.2,-.1)
         sun.displayWidth = gameWidth;
         sun.displayHeight = gameHeight;
         sun.setScale(.4)
@@ -598,7 +614,7 @@ class firstLevel extends ConfigureScene {
 
         this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
 
-        this.add.text(20,20, "Level1 Scene", {
+        const serenText = this.add.text(20,20, "Green Serenity", {
             fontFamily: this.fontproperties.font,
             fontSize: 50,
             stroke : 'black',
@@ -609,6 +625,10 @@ class firstLevel extends ConfigureScene {
         let waterCollected = false;
         let flowerCollected = false;
         let seedCollected = false;
+        let sunOut = false;
+        let waterOut = false;
+        let seedPlanted = false;
+        let seedGrowth = false;
         
         // sun item
         const sunItem = new InventoryItem('Sun','Power of the sun in palm of my fingertips')
@@ -626,32 +646,43 @@ class firstLevel extends ConfigureScene {
         const seedItem = new InventoryItem('Seeds','Blooming with potential')
         seedItem.createItemText(this,gameWidth *.2,gameHeight*.6,'white','black',4)
 
-        coinItem.text.setInteractive();
-        coinItem.text.on('pointerdown', () => {
-            console.log('coin item clicked')
-            this.inventoryUI.collectItem(coinItem);
-            coinItem.text.destroy();
+        sunItem.text.setInteractive();
+        waterItem.text.setInteractive();
+        flowerItem.text.setInteractive();
+        seedItem.text.setInteractive();
+
+        sunItem.text.on('pointerdown', () => {
+            console.log('sun item clicked')
+            this.inventoryUI.collectItem(sunItem,'white','black',4);
+            sunItem.text.destroy();
+            sunCollected = true;
+            console.log(sunCollected)
         });
 
-        const swordItem = new InventoryItem('Sword','A shiny sword');
-        swordItem.createItemText(this, 20, 160);
-
-        swordItem.text.setInteractive();
-        swordItem.text.on('pointerdown', () => {
-            console.log('sword item clicked')
-            this.inventoryUI.collectItem(swordItem);
-            swordItem.text.destroy();
+        waterItem.text.on('pointerdown', () => {
+            console.log('water item clicked')
+            this.inventoryUI.collectItem(waterItem,'white','black',4);
+            waterItem.text.destroy();
+            waterCollected = true;
+            console.log(waterCollected)
         });
-       
-        const shieldItem = new InventoryItem('Shield','A shiny shield');
-        shieldItem.createItemText(this, 20, 200);
 
-        shieldItem.text.setInteractive();
-        shieldItem.text.on('pointerdown', () => {
-            console.log('shield item clicked')
-            this.inventoryUI.collectItem(shieldItem);
-            shieldItem.text.destroy();
+        flowerItem.text.on('pointerdown', () => {
+            console.log('flower item clicked')
+            this.inventoryUI.collectItem(flowerItem,'white','black',4);
+            flowerItem.text.destroy();
+            flowerCollected = true;
+            console.log(flowerCollected)
         });
+
+        seedItem.text.on('pointerdown', () => {
+            console.log('seed item clicked')
+            this.inventoryUI.collectItem(seedItem,'white','black',4);
+            seedItem.text.destroy();
+            seedCollected = true;
+            console.log(seedCollected)
+        });
+
         
         let isInventoryOpen = false;
         
@@ -761,6 +792,8 @@ class makeAWish extends ConfigureScene {
         const background = this.add.sprite(0,0, 'makeAWishBackground');
         background.setOrigin(0,0);
 
+        // background.alpha = 0;
+
         background.displayWidth = gameWidth;
         background.displayHeight = gameHeight;
         // background.alpha = 0;
@@ -777,28 +810,30 @@ class makeAWish extends ConfigureScene {
 
 
         // sun
-        const sun = this.add.sprite(gameWidth * .5, gameHeight * .825, 'sun');
+        const sun = this.add.sprite(gameWidth * .5, gameHeight * .8, 'sun');
         // sun.setOrigin(0.5);
-        sun.setScale(.6);
+        sun.setScale(.5);
 
         // sun shade
-        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .65, 'sunShade');
+        const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'sunShade');
         sunShade.setScale(.4);
 
         // water shade
-        const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'waterShade');
-        waterShade.setScale(0.9);
+        const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .5, 'waterShade');
+        waterShade.setScale(0.6);
 
         // cliff
-        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .47, 'cliff');
+        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .25, 'cliff');
         cliff.setScale(0.9);
 
         // cloud
         const cloud = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cloud');
-        cloud.setScale(0.9);
+        cloud.setScale(.6);
 
         
-        this.inventoryUI = new InventoryUI(this);
+        this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
+        // this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
+
 
 
 
@@ -808,7 +843,7 @@ class makeAWish extends ConfigureScene {
         const paperItem = new InventoryItem('Paper','A piece of paper');
 
 
-        paperItem.createItemText(this, gameWidth *.37, gameHeight * .93);
+        paperItem.createItemText(this, gameWidth *.37, gameHeight * .93, 'black', 'white', 4);
 
         paperItem.text.setInteractive();
         paperItem.text.on('pointerdown', () => {
