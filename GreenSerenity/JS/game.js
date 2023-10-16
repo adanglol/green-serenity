@@ -1678,6 +1678,7 @@ class whatSound extends ConfigureScene{
         const CricketSound = this.sound.add('cricket_mp3');
         const RainSound = this.sound.add('rain_mp3');
 
+        const timeInterval = 2000;
         
         BirdSound.play({loop: true});
 
@@ -1698,20 +1699,37 @@ class whatSound extends ConfigureScene{
 
                     if (transcript.includes('bird')) {
                         if(BirdSound) BirdSound.stop();
-                        // add bird sprite
-                        CricketSound.play({loop: true});
+                        const bird = this.add.sprite(750, 450, 'bird');
+                        this.time.delayedCall(timeInterval, () => {
+                            bird.destroy();
+                        });
+                        RainSound.play({loop: true});
                     }
 
                     if (transcript.includes('rain')){
                         if(RainSound) RainSound.stop();
-                        // add rain sprite
+                        const rain = this.add.sprite(770,470, 'rain');
+                        this.time.delayedCall(timeInterval, () => {
+                            rain.destroy();
+                        });
                         CricketSound.play({loop: true});
                     }  
 
                     if (transcript.includes ('cricket')){
                         if(CricketSound) CricketSound.stop();
-                        //add cricket sprite
-                        //add transtion to next game mini game with a congratz thing
+                        const bug = this.add.sprite(750,370, 'bug');
+                        this.time.delayedCall(timeInterval, () => {
+                            bug.destroy();
+                        this.time.delayedCall(timeInterval, () => {
+                            const text = this.add.text(300, 300, 'Great Job! say NEXT for the next game',{
+                                fontSize: '40px',
+                            });
+                        })
+                        });
+
+                    }
+                    if (transcript.includes('next')){
+                        this.scene.start('rememberGong');
                     }
                    
                 }
