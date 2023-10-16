@@ -1689,16 +1689,20 @@ class whatSound extends ConfigureScene{
 
                     if (transcript.includes('bird')) {
                         if(BirdSound) BirdSound.stop();
+                        // add bird sprite
                         CricketSound.play({loop: true});
                     }
 
-                    if (transcript.includes('cricket')){
-                        if(CricketSound) CricketSound.stop();
-                        RainSound.play({loop: true});
+                    if (transcript.includes('rain')){
+                        if(RainSound) RainSound.stop();
+                        // add rain sprite
+                        CricketSound.play({loop: true});
                     }  
 
-                    if (transcript.includes ('rain')){
-                        if(RainSound) RainSound.stop();
+                    if (transcript.includes ('cricket')){
+                        if(CricketSound) CricketSound.stop();
+                        //add cricket sprite
+                        //add transtion to next game mini game with a congratz thing
                     }
                    
                 }
