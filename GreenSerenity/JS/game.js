@@ -98,8 +98,16 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('sunShade', '../ASSETS/makeWish/Lvl 3 Sun shade.png');
         this.load.image('sun', '../ASSETS/makeWish/Lvl 3 Sun.png');
         this.load.image('waterShade', '../ASSETS/makeWish/Lvl 3 Water shade.png');
-
-
+        // Remember the Gong
+        this.load.image('sky', '../ASSETS/RememberGong/pixel_sky.png');
+        this.load.image('sunset', '../ASSETS/RememberGong/sunset.png');
+        this.load.image('character', '../ASSETS/RememberGong/character.png');
+        this.load.image('hill_1', '../ASSETS/RememberGong/hill_1.png');
+        this.load.image('hill_2', '../ASSETS/RememberGong/hill_2.png');
+        this.load.image('hill_3', '../ASSETS/RememberGong/hill_3.png');
+        this.load.image('hill_4', '../ASSETS/RememberGong/hill_4.png');
+        this.load.image('tree', '../ASSETS/RememberGong/tree.png');
+        this.load.image('gong', '../ASSETS/RememberGong/gong.png');
     }
     create(){
         // Use WebFont Loader to load Google Fonts
@@ -1601,11 +1609,44 @@ class rememberGong extends ConfigureScene{
         super('rememberGong');
     }
     create(){
-        this.add.text(20,20, "Level7 Scene", {
-            fontFamily: this.fontproperties.font,
-            fontSize: 30,
-        },);
 
+        const gameWidth = this.scale.width;
+        const gameHeight = this.scale.height;
+        // background
+        const background = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'sky');
+        background.setOrigin(0.5);
+
+        background.displayWidth = gameWidth;
+        background.displayHeight = gameHeight; 
+
+        let g1 = this.add.sprite(this.cameras.main.width/6, this.cameras.main.height/7.5, 'gong')
+        g1.setScale(0.3)
+        
+        let character = this.add.sprite(this.cameras.main.width/1.47, this.cameras.main.height/1.7, 'character')
+        character.setScale(0.4)
+
+        let tree = this.add.sprite(this.cameras.main.width/1.3, this.cameras.main.height/2.7, 'tree')
+        tree.setScale(0.7)
+        
+        let h4 = this.add.sprite(this.cameras.main.width/6, this.cameras.main.height/2, 'hill_4')
+        h4.setScale(1.7)
+
+        let g4 = this.add.sprite(this.cameras.main.width/1.03, this.cameras.main.height/3, 'gong')
+        g4.setScale(0.3)
+        let h3 = this.add.sprite(this.cameras.main.width/1, this.cameras.main.height/1.5, 'hill_3')
+        h3.setScale(1.7)
+
+        let g2 = this.add.sprite(this.cameras.main.width/4, this.cameras.main.height/3, 'gong')
+        g2.setScale(0.4)
+        let h2 = this.add.sprite(this.cameras.main.width/4, this.cameras.main.height/1.5, 'hill_2')
+        h2.setScale(1.7)
+
+        let g3 = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'gong')
+        g3.setScale(0.7)
+        
+        let h1 = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/1, 'hill_1')
+        h1.setScale(2.3)
+         //background.setScale()
     }
 
 }
