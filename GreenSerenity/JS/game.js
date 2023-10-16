@@ -116,7 +116,7 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('sunShade', '../ASSETS/makeWish/Lvl 3 Sun shade.png');
         this.load.image('sun', '../ASSETS/makeWish/Lvl 3 Sun.png');
         this.load.image('waterShade', '../ASSETS/makeWish/Lvl 3 Water shade.png');
-        // Remember the Gong
+// Remember the Gong
         this.load.image('sky', '../ASSETS/RememberGong/pixel_sky.png');
         this.load.image('sunset', '../ASSETS/RememberGong/sunset.png');
         this.load.image('character', '../ASSETS/RememberGong/character.png');
@@ -134,7 +134,7 @@ class ConfigureScene extends Phaser.Scene {
                 families: ['Modak']
             },
             active: () => {
-                game.scene.start('makeAWish');
+                game.scene.start('Menu');
             },
         });
 
@@ -1750,7 +1750,7 @@ class rememberGong extends ConfigureScene{
         super('rememberGong');
     }
     create(){
-
+        
         const gameWidth = this.scale.width;
         const gameHeight = this.scale.height;
         // background
