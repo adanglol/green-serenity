@@ -1,0 +1,73 @@
+body {
+    background: rgb(125, 168, 61) !important;
+    margin : 0;
+    padding: 0;
+    font-family: 'Modak' !important;
+}
+
+.green {
+    background-color: green;
+    width: 90px;
+    height: 90px;
+}
+
+
+#nav{
+    background-color: rgb(17, 113, 41) !important;
+    border : 1px solid black !important;
+}
+
+.header {
+    -webkit-text-stroke: 2px #000; /* 2px wide black stroke for WebKit (Safari) browsers */
+    background-color: #9746cd;
+    color: #81ff13;
+    padding: 5px;
+    border : 2px solid black;
+    position: relative; /* Set the position to relative */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.video-container {
+    position: relative;
+    overflow-x: hidden;
+    height : 80vh !important;
+}
+
+.small-image {
+    max-width: 100px; /* Adjust the max-width to your desired size */
+    float: right; /* Float the image to the right */
+    margin-left: 20px; /* Add some margin for spacing between text and image */
+}
+
+.btn-primary {
+    -webkit-text-stroke: 2px #000; /* 2px wide black stroke for WebKit (Safari) browsers */
+
+    background-color : #9746cd !important;
+    border: 1px solid black !important;
+    color : #81ff13 !important;
+}
+
+.btn-primary:hover {
+    -webkit-text-stroke: 2px #ffffff; /* 2px wide black stroke for WebKit (Safari) browsers */
+
+    background-color : #231c1c !important;
+    border: 1px solid black !important;
+    color : #9746cd !important;
+    padding : 10px;
+}
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    /* color: white; */
+    font-size: 2em;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
