@@ -44,22 +44,6 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('greenBean', '../ASSETS/Menu/GBLOGO 1.png');
         this.load.image('menu', '../ASSETS/Menu/Menu.png');
 
-
-        // Inventory Button Asset
-        this.load.image('openInventoryButton','../ASSETS/inventory/Button Inventory.png')
-        this.load.image('closeInventoryButton','../ASSETS/inventory/Button Inventory close.png')
-
-        // Green Serenity Assets
-        this.load.image('greenBg','../ASSETS/greenSerenity/BG.png')
-        this.load.image('greenDirt','../ASSETS/greenSerenity/Dirt.png')
-        this.load.image('greenDirt1','../ASSETS/greenSerenity/Dirt 1.png')
-        this.load.image('flower','../ASSETS/greenSerenity/Flower.png')
-        this.load.image('grownTrees','../ASSETS/greenSerenity/Full.png')
-        this.load.image('halfTree','../ASSETS/greenSerenity/Half.png')
-        this.load.image('sapling','../ASSETS/greenSerenity/Sapling.png')
-        this.load.image('seed','../ASSETS/greenSerenity/Seed.png')
-        this.load.image('sun','../ASSETS/greenSerenity/Sun.png')
-        this.load.image('water','../ASSETS/greenSerenity/Water.png')
         // Who is the Loudest Assets
         this.load.image('whosLoudestBackground', '../ASSETS/whosLoudest.png');
         this.load.image('fox', '../ASSETS/fox.png');
@@ -614,7 +598,7 @@ class firstLevel extends ConfigureScene {
 
         this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
 
-        const serenText = this.add.text(20,20, "Green Serenity", {
+        this.add.text(20,20, "Level1 Scene", {
             fontFamily: this.fontproperties.font,
             fontSize: 50,
             stroke : 'black',
@@ -642,47 +626,34 @@ class firstLevel extends ConfigureScene {
         const seedItem = new InventoryItem('Seeds','Blooming with potential')
         seedItem.createItemText(this,gameWidth *.2,gameHeight*.6,'white','black',4)
 
-        sunItem.text.setInteractive();
-        sunItem.text.on('pointerdown', () => {
-            console.log('sun item has been collected')
-            this.inventoryUI.collectItem(sunItem,'white','black',4)
-            sunItem.text.destroy();
-            sunCollected = true
-        })
+        coinItem.text.setInteractive();
+        coinItem.text.on('pointerdown', () => {
+            console.log('coin item clicked')
+            this.inventoryUI.collectItem(coinItem);
+            coinItem.text.destroy();
+        });
 
+        const swordItem = new InventoryItem('Sword','A shiny sword');
+        swordItem.createItemText(this, 20, 160);
+
+        swordItem.text.setInteractive();
+        swordItem.text.on('pointerdown', () => {
+            console.log('sword item clicked')
+            this.inventoryUI.collectItem(swordItem);
+            swordItem.text.destroy();
+        });
+       
+        const shieldItem = new InventoryItem('Shield','A shiny shield');
+        shieldItem.createItemText(this, 20, 200);
+
+        shieldItem.text.setInteractive();
+        shieldItem.text.on('pointerdown', () => {
+            console.log('shield item clicked')
+            this.inventoryUI.collectItem(shieldItem);
+            shieldItem.text.destroy();
+        });
         
-        waterItem.text.setInteractive();
-        waterItem.text.on('pointerdown', () => {
-            console.log('sun item has been collected')
-            this.inventoryUI.collectItem(waterItem,'white','black',4)
-            waterItem.text.destroy();
-            waterCollected = true;
-        })
-
-        
-        seedItem.text.setInteractive();
-        seedItem.text.on('pointerdown', () => {
-            console.log('sun item has been collected')
-            this.inventoryUI.collectItem(seedItem,'white','black',4)
-            seedItem.text.destroy();
-            seedCollected = true;
-        })
-
-        
-        flowerItem.text.setInteractive();
-        flowerItem.text.on('pointerdown', () => {
-            console.log('sun item has been collected')
-            this.inventoryUI.collectItem(flowerItem,'white','black',4)
-            flowerItem.text.destroy();
-            flowerCollected = true;
-        })
-
-
         let isInventoryOpen = false;
-        let sunOut = false;
-        let waterOut = false;
-        let seedPlanted = false
-        let seedGrowth = false
         
         let recognizer = new webkitSpeechRecognition();
         recognizer.continuous = true;
@@ -827,7 +798,7 @@ class makeAWish extends ConfigureScene {
         cloud.setScale(0.9);
 
         
-        this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
+        this.inventoryUI = new InventoryUI(this);
 
 
 
@@ -837,12 +808,12 @@ class makeAWish extends ConfigureScene {
         const paperItem = new InventoryItem('Paper','A piece of paper');
 
 
-        paperItem.createItemText(this, gameWidth *.37, gameHeight * .93, 'black','white',4);
+        paperItem.createItemText(this, gameWidth *.37, gameHeight * .93);
 
         paperItem.text.setInteractive();
         paperItem.text.on('pointerdown', () => {
             console.log('paper item clicked')
-            this.inventoryUI.collectItem(paperItem, 'black','white',4);
+            this.inventoryUI.collectItem(paperItem);
             paperItem.text.destroy();
             console.log(inventory);
         });
@@ -1667,7 +1638,7 @@ class whatSound extends ConfigureScene{
         // Rain = this.add.sprite('rain');
 
         // put first audio here along
-        BirdSound.play();
+        BirdSound.play({loop: true});
 
         let recognizer = new webkitSpeechRecognition();
         recognizer.continuous = true;
@@ -1677,13 +1648,13 @@ class whatSound extends ConfigureScene{
         console.log("recognizer started");
 
         recognizer.onresult = (event) => {
-            recognizer.onend = () => {
-                console.log("recognizer ended");
-                console.log('restarting')
-                recognizer.start();
-            }
+            // recognizer.onend = () => {
+            //     console.log("recognizer ended");
+            //     console.log('restarting')
+            //     recognizer.start();
+            // }
 
-            if (!this,recognizerInprogress) {
+            if (!this.recognizerInProgress) {
                 for (let i = event.resultIndex; i < event.results.length; i++){
                     const transcript = event.results[i][0].transcript.toLowerCase();
                     console.log(transcript); 
@@ -1692,13 +1663,13 @@ class whatSound extends ConfigureScene{
                         BirdSound.stop();
                     } 
 
-                    CricketSound.play();    
+                    CricketSound.play({loop: true});    
 
                     if (transcript.includes ("cricket")){
                         CricketSound.stop();
                     }
 
-                    RainSound.play();   
+                    RainSound.play({loop: true});   
 
                     if (transcript.includes ("rain")){
                         RainSound.stop();
