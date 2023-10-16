@@ -868,19 +868,19 @@ class makeAWish extends ConfigureScene {
 
         
         const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper1');
-        paper1.setScale(0.7);
+        paper1.setScale(0.5);
         paper1.alpha = 0;
 
         const paper2 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper2');
-        paper2.setScale(0.7);
+        paper2.setScale(0.5);
         paper2.alpha = 0;
 
         const paper3 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper3');
-        paper3.setScale(0.7);
+        paper3.setScale(0.5);
         paper3.alpha = 0;
 
         const paper4 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper4');
-        paper4.setScale(0.7);
+        paper4.setScale(0.5);
         paper4.alpha = 0;
 
         const paper5 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper5');
