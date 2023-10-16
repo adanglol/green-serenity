@@ -1672,6 +1672,8 @@ class whatSound extends ConfigureScene{
         // Cricket = this.add.sprite('bug');
         // Rain = this.add.sprite('rain');
 
+       // let currentSound = null
+
         // put first audio here along
         BirdSound.play({loop: true});
 
@@ -1691,23 +1693,21 @@ class whatSound extends ConfigureScene{
 
             if (!this.recognizerInProgress) {
                 for (let i = event.resultIndex; i < event.results.length; i++){
-                    const transcript = event.results[i][0].transcript.toLowerCase();
+                    const transcript = [event.results.length - 1][0].transcript.toLowerCase();
                     console.log(transcript); 
 
-                    if (transcript.includes ("bird")){
-                        BirdSound.stop();
-                    } 
-
-                    CricketSound.play({loop: true});    
-
-                    if (transcript.includes ("cricket")){
-                        CricketSound.stop();
+                    if (transcript.includes('bird')) {
+                        if(BirdSound) BirdSound.stop();
+                        CricketSound.play({loop: true});
                     }
 
-                    RainSound.play({loop: true});   
+                    if (transcript.includes('cricket')){
+                        if(CricketSound) CricketSound.stop();
+                        RainSound.play({loop: true});
+                    }  
 
                     if (transcript.includes ("rain")){
-                        RainSound.stop();
+                        if(RainSound) RainSound.stop();
                         this.add.text(this.scale.width *.8, this.scale.height * .5,
                          "Great Job, say NEXT to go to the next minigame!", this.fontproperties.font, fontSize(100)
                         );
