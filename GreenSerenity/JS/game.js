@@ -144,6 +144,7 @@ class Menu extends ConfigureScene {
         super('Menu');
     }
     create(){
+        console.log("Menu scene created and called")
         let isGameStarted = false;
 
         const gameWidth = this.scale.width;
