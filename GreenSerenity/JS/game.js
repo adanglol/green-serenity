@@ -126,7 +126,7 @@ class ConfigureScene extends Phaser.Scene {
                 families: ['Modak']
             },
             active: () => {
-                game.scene.start('Menu');
+                game.scene.start('makeAWish');
             },
         });
 
@@ -817,19 +817,19 @@ class makeAWish extends ConfigureScene {
 
         // sun shade
         const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'sunShade');
-        sunShade.setScale(.4);
+        sunShade.setScale(.6);
 
         // water shade
         const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .5, 'waterShade');
-        waterShade.setScale(0.6);
+        waterShade.setScale(0.8);
 
         // cliff
-        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .25, 'cliff');
+        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .47, 'cliff');
         cliff.setScale(0.9);
 
         // cloud
         const cloud = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cloud');
-        cloud.setScale(.6);
+        cloud.setScale(.9);
 
         
         this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
@@ -869,19 +869,19 @@ class makeAWish extends ConfigureScene {
 
         
         const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper1');
-        paper1.setScale(0.5);
+        paper1.setScale(0.7);
         paper1.alpha = 0;
 
         const paper2 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper2');
-        paper2.setScale(0.5);
+        paper2.setScale(0.7);
         paper2.alpha = 0;
 
         const paper3 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper3');
-        paper3.setScale(0.5);
+        paper3.setScale(0.7);
         paper3.alpha = 0;
 
         const paper4 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper4');
-        paper4.setScale(0.5);
+        paper4.setScale(0.7);
         paper4.alpha = 0;
 
         const paper5 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper5');
