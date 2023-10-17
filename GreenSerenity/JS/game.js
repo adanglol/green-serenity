@@ -119,6 +119,7 @@ class ConfigureScene extends Phaser.Scene {
         // Remember the Gong
         this.load.image('sky', '../ASSETS/RememberGong/pixel_sky.png');
         this.load.image('sunset', '../ASSETS/RememberGong/sunset.png');
+        this.load.image('storm', '../ASSETS/RememberGong/thunderstorm.png');
         this.load.image('character', '../ASSETS/RememberGong/character.png');
         this.load.image('hill_1', '../ASSETS/RememberGong/hill_1.png');
         this.load.image('hill_2', '../ASSETS/RememberGong/hill_2.png');
@@ -126,6 +127,16 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('hill_4', '../ASSETS/RememberGong/hill_4.png');
         this.load.image('tree', '../ASSETS/RememberGong/tree.png');
         this.load.image('gong', '../ASSETS/RememberGong/gong.png');
+        this.load.audio('gong1', '../ASSETS/RememberGong/gong1.mp3');
+        this.load.audio('gong2', '../ASSETS/RememberGong/gong2.mp3');
+        this.load.audio('gong3', '../ASSETS/RememberGong/gong3.mp3');
+        this.load.audio('gong4', '../ASSETS/RememberGong/gong4.mp3');
+        this.load.audio('pattern', '../ASSETS/RememberGong/pattern.mp3');
+        this.load.audio('thunder', '../ASSETS/RememberGong/thunder.mp3');
+        this.load.audio('win', '../ASSETS/RememberGong/winner_music.mp3');
+        this.load.audio('gb', '../ASSETS/greenbeans.mp3');
+        
+        
     }
     create(){
         // Use WebFont Loader to load Google Fonts
@@ -236,7 +247,12 @@ class Menu extends ConfigureScene {
 
         rememberGongText.alpha = 0;
 
+        let gb = this.sound.add('gb');
+        
 
+        this.time.delayedCall(1000, () => {
+            gb.play()
+        })
         this.tweens.add({
             targets: logo,
             alpha: 1,
@@ -1732,18 +1748,65 @@ class rememberGong extends ConfigureScene{
         super('rememberGong');
     }
     create(){
-
+        
         const gameWidth = this.scale.width;
-        const gameHeight = this.scale.height;
         // background
-        const background = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'sky');
+        let background = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'sky');
         background.setOrigin(0.5);
 
         background.displayWidth = gameWidth;
-        background.displayHeight = gameHeight; 
 
-        let g1 = this.add.sprite(this.cameras.main.width/6, this.cameras.main.height/7.5, 'gong')
-        g1.setScale(0.3)
+        let x = this.add.text(this.cameras.main.width/3.7, this.cameras.main.height/8, 'CLICK AND PLAY THE GONGS FOR 10 SECONDS')
+        .setFontSize(30)
+        .setFontFamily("Impact")
+        .setStroke('#000000', 8)
+
+        this.add.tween({
+            targets: x,
+            alpha: 0,
+            duration: 10000,
+        })
+
+        let y = this.add.text(this.cameras.main.width/3, this.cameras.main.height/8, 'CLOSE YOUR EYES AND LISTEN')
+        .setFontSize(30)
+        .setFontFamily("Impact")
+        .setStroke('#000000', 8)
+
+        let pattern = this.sound.add('pattern')
+
+        this.time.delayedCall(17000, () => {
+            pattern.play()
+        })
+
+        y.alpha = 0
+
+        this.add.tween({
+            targets: y,
+            alpha:1,
+            delay: 10000,
+            duration: 3000, 
+        })
+
+        this.add.tween({
+            targets: y,
+            alpha: 0,
+            delay: 15000,
+            duration: 2000,
+
+        })
+
+        let G1 = this.sound.add('gong1');
+        let G2 = this.sound.add('gong2');
+        let G3 = this.sound.add('gong3');
+        let G4 = this.sound.add('gong4');
+
+        let g1 = this.add.sprite(this.cameras.main.width/6, this.cameras.main.height/7.3, 'gong')
+        .setScale(0.3)
+        .setInteractive()
+        g1.on('pointerdown', () => {
+            G1.play()
+        })
+        
         
         let character = this.add.sprite(this.cameras.main.width/1.47, this.cameras.main.height/1.7, 'character')
         character.setScale(0.4)
@@ -1755,21 +1818,35 @@ class rememberGong extends ConfigureScene{
         h4.setScale(1.7)
 
         let g4 = this.add.sprite(this.cameras.main.width/1.03, this.cameras.main.height/3, 'gong')
-        g4.setScale(0.3)
+        .setScale(0.3)
+        .setInteractive()
+        g4.on('pointerdown', () => {
+            G4.play()
+        })
+
         let h3 = this.add.sprite(this.cameras.main.width/1, this.cameras.main.height/1.5, 'hill_3')
         h3.setScale(1.7)
 
         let g2 = this.add.sprite(this.cameras.main.width/4, this.cameras.main.height/3, 'gong')
-        g2.setScale(0.4)
+        .setScale(0.4)
+        .setInteractive()
+        g2.on('pointerdown', () => {
+            G2.play()
+        })
         let h2 = this.add.sprite(this.cameras.main.width/4, this.cameras.main.height/1.5, 'hill_2')
         h2.setScale(1.7)
 
         let g3 = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'gong')
-        g3.setScale(0.7)
+        .setScale(0.7)
+        .setInteractive()
+        g3.on('pointerdown', () => {
+            G3.play()
+        })
         
         let h1 = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/1, 'hill_1')
         h1.setScale(2.3)
-         //background.setScale()
+
+        let clickedgong = true
     }
 
 }
