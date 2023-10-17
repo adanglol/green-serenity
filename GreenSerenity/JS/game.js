@@ -116,7 +116,7 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('sunShade', '../ASSETS/makeWish/Lvl 3 Sun shade.png');
         this.load.image('sun', '../ASSETS/makeWish/Lvl 3 Sun.png');
         this.load.image('waterShade', '../ASSETS/makeWish/Lvl 3 Water shade.png');
-        // Remember the Gong
+// Remember the Gong
         this.load.image('sky', '../ASSETS/RememberGong/pixel_sky.png');
         this.load.image('sunset', '../ASSETS/RememberGong/sunset.png');
         this.load.image('storm', '../ASSETS/RememberGong/thunderstorm.png');
@@ -841,19 +841,19 @@ class makeAWish extends ConfigureScene {
 
         // sun shade
         const sunShade = this.add.sprite(gameWidth * .5, gameHeight * .55, 'sunShade');
-        sunShade.setScale(.4);
+        sunShade.setScale(.6);
 
         // water shade
         const waterShade = this.add.sprite(gameWidth * .5, gameHeight * .5, 'waterShade');
-        waterShade.setScale(0.6);
+        waterShade.setScale(0.8);
 
         // cliff
-        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .25, 'cliff');
+        const cliff = this.add.sprite(gameWidth * .5, gameHeight * .47, 'cliff');
         cliff.setScale(0.9);
 
         // cloud
         const cloud = this.add.sprite(gameWidth * .5, gameHeight * .4, 'cloud');
-        cloud.setScale(.6);
+        cloud.setScale(.9);
 
         
         this.inventoryUI = new InventoryUI(this,'closeInventoryButton');
@@ -893,19 +893,19 @@ class makeAWish extends ConfigureScene {
 
         
         const paper1 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper1');
-        paper1.setScale(0.5);
+        paper1.setScale(0.7);
         paper1.alpha = 0;
 
         const paper2 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper2');
-        paper2.setScale(0.5);
+        paper2.setScale(0.7);
         paper2.alpha = 0;
 
         const paper3 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper3');
-        paper3.setScale(0.5);
+        paper3.setScale(0.7);
         paper3.alpha = 0;
 
         const paper4 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper4');
-        paper4.setScale(0.5);
+        paper4.setScale(0.7);
         paper4.alpha = 0;
 
         const paper5 = this.add.sprite(gameWidth * .5, gameHeight * .55, 'paper5');
@@ -1694,6 +1694,7 @@ class whatSound extends ConfigureScene{
         const CricketSound = this.sound.add('cricket_mp3');
         const RainSound = this.sound.add('rain_mp3');
 
+        const timeInterval = 2000;
         
         BirdSound.play({loop: true});
 
@@ -1714,20 +1715,37 @@ class whatSound extends ConfigureScene{
 
                     if (transcript.includes('bird')) {
                         if(BirdSound) BirdSound.stop();
-                        // add bird sprite
-                        CricketSound.play({loop: true});
+                        const bird = this.add.sprite(750, 450, 'bird');
+                        this.time.delayedCall(timeInterval, () => {
+                            bird.destroy();
+                        });
+                        RainSound.play({loop: true});
                     }
 
                     if (transcript.includes('rain')){
                         if(RainSound) RainSound.stop();
-                        // add rain sprite
+                        const rain = this.add.sprite(770,470, 'rain');
+                        this.time.delayedCall(timeInterval, () => {
+                            rain.destroy();
+                        });
                         CricketSound.play({loop: true});
                     }  
 
                     if (transcript.includes ('cricket')){
                         if(CricketSound) CricketSound.stop();
-                        //add cricket sprite
-                        //add transtion to next game mini game with a congratz thing
+                        const bug = this.add.sprite(750,370, 'bug');
+                        this.time.delayedCall(timeInterval, () => {
+                            bug.destroy();
+                        this.time.delayedCall(timeInterval, () => {
+                            const text = this.add.text(300, 300, 'Great Job! say NEXT for the next game',{
+                                fontSize: '40px',
+                            });
+                        })
+                        });
+
+                    }
+                    if (transcript.includes('next')){
+                        this.scene.start('rememberGong');
                     }
                    
                 }
