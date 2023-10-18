@@ -1051,11 +1051,11 @@ class makeAWish extends ConfigureScene {
                        
                     }
 
-                    recognizer.onend = () => {
-                        console.log("recognizer ended");
-                        console.log('restarting')
-                        recognizer.start();
-                    }
+                    // recognizer.onend = () => {
+                    //     console.log("recognizer ended");
+                    //     console.log('restarting')
+                    //     recognizer.start();
+                    // }
 
 
                     if (makingWish){
