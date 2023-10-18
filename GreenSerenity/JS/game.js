@@ -126,6 +126,15 @@ class ConfigureScene extends Phaser.Scene {
         this.load.image('hill_4', '../ASSETS/RememberGong/hill_4.png');
         this.load.image('tree', '../ASSETS/RememberGong/tree.png');
         this.load.image('gong', '../ASSETS/RememberGong/gong.png');
+        this.load.audio('gong1', '../ASSETS/RememberGong/gong1.mp3');
+        this.load.audio('gong2', '../ASSETS/RememberGong/gong2.mp3');
+        this.load.audio('gong3', '../ASSETS/RememberGong/gong3.mp3');
+        this.load.audio('gong4', '../ASSETS/RememberGong/gong4.mp3');
+        this.load.audio('pattern', '../ASSETS/RememberGong/pattern.mp3');
+        this.load.audio('win', '../ASSETS/RememberGong/winner_music.mp3');
+        this.load.audio('gb', '../ASSETS/greenbeans.mp3');
+        
+        
     }
     create(){
         // Use WebFont Loader to load Google Fonts
@@ -235,6 +244,17 @@ class Menu extends ConfigureScene {
         });
 
         rememberGongText.alpha = 0;
+
+        let gb = this.sound.add('gb');
+        let win = this.sound.add('win')
+
+        this.time.delayedCall(1000, () => {
+            gb.play()
+        })
+
+        this.time.delayedCall(3000, () => {
+            win.play({loop: true})
+        })
 
 
         this.tweens.add({
@@ -497,31 +517,37 @@ class Menu extends ConfigureScene {
         greenSerenityText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('firstLevel');
+            win.stop();
         });
 
         makeAWishText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('makeAWish');
+            win.stop();
         });
 
         whosLoudestText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('whosLoudest');
+            win.stop();
         });
 
         recordanceText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('Recordance');
+            win.stop();
         });
 
         whatsThatSoundText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('whatSound');
+            win.stop();
         });
 
         rememberGongText.on('pointerdown', () => {
             recognizer.stop();
             this.scene.start('rememberGong');
+            win.stop()
         });
 
     }
@@ -1752,42 +1778,153 @@ class rememberGong extends ConfigureScene{
     create(){
         
         const gameWidth = this.scale.width;
-        const gameHeight = this.scale.height;
         // background
-        const background = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'sky');
+        let background = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'sky');
         background.setOrigin(0.5);
-
         background.displayWidth = gameWidth;
-        background.displayHeight = gameHeight; 
 
-        let g1 = this.add.sprite(this.cameras.main.width/6, this.cameras.main.height/7.5, 'gong')
-        g1.setScale(0.3)
+        this.add.tween({
+            targets: background,
+            alpha: 0,
+            delay: 40000,
+            duration: 3000,
+        })
+
+        let background2 = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'sunset');
+        background2.setOrigin(0.5);
+        background2.displayWidth = gameWidth;
+        background2.alpha = 0
+
+        this.add.tween({
+            targets: background2,
+            alpha: 1,
+            delay: 40000,
+            duration: 2000,
+        })
+
+        // first text 
+        let firsttext = this.add.text(this.cameras.main.width/3.7, this.cameras.main.height/8, 'CLICK AND PLAY THE GONGS FOR 10 SECONDS')
+        .setFontSize(30)
+        .setFontFamily("Impact")
+        .setStroke('#000000', 8)
+
+        this.add.tween({
+            targets: firsttext,
+            alpha: 0,
+            duration: 10000,
+        })
+
+        // second text 
+        let secondtext = this.add.text(this.cameras.main.width/3, this.cameras.main.height/8, 'CLOSE YOUR EYES AND LISTEN')
+        .setFontSize(30)
+        .setFontFamily("Impact")
+        .setStroke('#000000', 8)
+
+        secondtext.alpha = 0
+
+        this.add.tween({
+            targets: secondtext,
+            alpha:1,
+            delay: 10000,
+            duration: 3000, 
+        })
+
+        this.add.tween({
+            targets: secondtext,
+            alpha: 0,
+            delay: 15000,
+            duration: 2000,
+
+        })
+
+        let thirdtext = this.add.text(this.cameras.main.width/3, this.cameras.main.height/8, 'MATCH THE SOUND')
+        .setFontSize(30)
+        .setFontFamily("Impact")
+        .setStroke('#000000', 8)
+        thirdtext.alpha = 0
+
+        this.add.tween({
+            targets: thirdtext,
+            alpha: 1,
+            delay: 30000,
+            duration:2000
+        })
+
+        this.add.tween({
+            targets: thirdtext,
+            alpha: 0,
+            delay: 35000,
+            duration:2000
+        })
+        // demo pattern
+        let pattern = this.sound.add('pattern')
+
+        this.time.delayedCall(15000, () => {
+            pattern.play()
+        })
+
+        // loaded sounds
+        let G1 = this.sound.add('gong1');
+        let G2 = this.sound.add('gong2');
+        let G3 = this.sound.add('gong3');
+        let G4 = this.sound.add('gong4');
+
+        // gong1
+        let g1 = this.add.sprite(this.cameras.main.width/6, this.cameras.main.height/7.3, 'gong')
+        .setScale(0.3)
+        .setInteractive()
+        g1.on('pointerdown', () => {
+            G1.play()
+        })
         
+        //character 
         let character = this.add.sprite(this.cameras.main.width/1.47, this.cameras.main.height/1.7, 'character')
         character.setScale(0.4)
 
+        //tree
         let tree = this.add.sprite(this.cameras.main.width/1.3, this.cameras.main.height/2.7, 'tree')
         tree.setScale(0.7)
         
+        //hill4
         let h4 = this.add.sprite(this.cameras.main.width/6, this.cameras.main.height/2, 'hill_4')
         h4.setScale(1.7)
 
+        //gong4
         let g4 = this.add.sprite(this.cameras.main.width/1.03, this.cameras.main.height/3, 'gong')
-        g4.setScale(0.3)
+        .setScale(0.3)
+        .setInteractive()
+        g4.on('pointerdown', () => {
+            G4.play()
+        })
+
+        // hill3
         let h3 = this.add.sprite(this.cameras.main.width/1, this.cameras.main.height/1.5, 'hill_3')
         h3.setScale(1.7)
 
+        // gong2
         let g2 = this.add.sprite(this.cameras.main.width/4, this.cameras.main.height/3, 'gong')
-        g2.setScale(0.4)
+        .setScale(0.4)
+        .setInteractive()
+        g2.on('pointerdown', () => {
+            G2.play()
+        })
+
+        // hill2 
         let h2 = this.add.sprite(this.cameras.main.width/4, this.cameras.main.height/1.5, 'hill_2')
         h2.setScale(1.7)
 
+        // gong3
         let g3 = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/2, 'gong')
-        g3.setScale(0.7)
+        .setScale(0.7)
+        .setInteractive()
+        g3.on('pointerdown', () => {
+            G3.play()
+        })
         
+        // hill1
         let h1 = this.add.sprite(this.cameras.main.width/2, this.cameras.main.height/1, 'hill_1')
         h1.setScale(2.3)
-         //background.setScale()
+
     }
 
 }
