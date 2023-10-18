@@ -143,7 +143,7 @@ class ConfigureScene extends Phaser.Scene {
                 families: ['Modak']
             },
             active: () => {
-                game.scene.start('firstLevel');
+                game.scene.start('Menu');
             },
         });
 
