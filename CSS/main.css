@@ -27,6 +27,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.title {
+    -webkit-text-stroke: 2px #000; /* 2px wide black stroke for WebKit (Safari) browsers */
+    font-size: 2em !important;
+    background-color: #9746cd;
+    color: #81ff13;
+    padding: 5px;
+    border : 2px solid black;
 
 }
 
@@ -44,6 +53,7 @@ body {
 
 .btn-primary {
     -webkit-text-stroke: 2px #000; /* 2px wide black stroke for WebKit (Safari) browsers */
+    font-size: 2em !important;
 
     background-color : #9746cd !important;
     border: 1px solid black !important;
@@ -71,3 +81,16 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.card-body {
+    background-color: #3d9b4b;
+    color: #81ff13;
+    padding: 5px;
+    border : 2px solid black;
+}
+
+.img-equal-height {
+    height: 100% !important;
+    width: auto !important;
+}
+

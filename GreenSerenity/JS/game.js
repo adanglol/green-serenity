@@ -143,7 +143,7 @@ class ConfigureScene extends Phaser.Scene {
                 families: ['Modak']
             },
             active: () => {
-                game.scene.start('Menu');
+                game.scene.start('firstLevel');
             },
         });
 
@@ -622,7 +622,7 @@ class firstLevel extends ConfigureScene {
 
         // sun
         const sun = this.add.sprite(0,0,'sun')
-        sun.setOrigin(-.2,-.1)
+        sun.setOrigin(-.5,-.3)
         sun.displayWidth = gameWidth;
         sun.displayHeight = gameHeight;
         sun.setScale(.4)
